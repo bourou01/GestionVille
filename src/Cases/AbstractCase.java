@@ -75,13 +75,11 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// Regles d'entree sortie
 	public boolean accueillirPersonne(AbstractPerson newP) { /// ajoute tout le monde
-
 		
 		
 		return this.addPerson(newP);
 		
 	}
-	
 	
 	public boolean addPerson(AbstractPerson newP) {
 		/**************************
@@ -94,12 +92,15 @@ public class AbstractCase implements ActionManager, ContagionManager{
 		else
 			this.villageois.add(newP);
 		
+		
+		/**************************
+		 *		 REGLE 7 : Un pompier entrant dans une case brûle automatiquement tous les corps des morts. + reçoi pulverisateur
+		 **************************/
+		CasesRules.regle7(this, newP);
+		
 		//Log.Disp(this.ID() + "ACCUEIL " + newP.ID());
-		
-		return true;
-		
+		return true;		
 	}
-	
 
 	/////////////////////////////////////////////////////////////////////////////
 	////////////////////// DEBUG
@@ -128,9 +129,7 @@ public class AbstractCase implements ActionManager, ContagionManager{
 		
 		return result ;
 	}
-	
 	public String toString(int row) {
-		
 		String result = "";
 		
 		if (row > 0)
@@ -208,7 +207,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 		
 		return result ;
 	}
-		
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// SETTERS/GETTERS
 	
@@ -218,8 +216,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public void setContaminated(boolean contaminated) {
 		this.contaminated = contaminated;
 	}
-	
-	
 	public Position getPosition() {
 		return position;
 	}
@@ -299,7 +295,4 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public void setNiveauContamination(double niveauContamination) {
 		this.niveauContamination = niveauContamination;
 	}
-	
-	
-	
 }

@@ -44,6 +44,7 @@ public class Medecin extends AbstractPerson  {
 			if (this.nombreKitDeTraitement>0) {
 				this.nombreKitDeTraitement--;
 				person.setMalade(false);
+				//Log.Disp( this.ID()+" Soigne " + person.ID());
 				Log.DispP(this.getId(), 
 						this.ID()+" Soigne " + 
 								person.ID()

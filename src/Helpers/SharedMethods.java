@@ -150,17 +150,12 @@ public class SharedMethods {
 	 */
 	static public AbstractPerson getPersonneLaPlusMaladeFrom(Vector<AbstractPerson> personnes) {
 		int nombreDePersonnes = personnes.size();
-
 		AbstractPerson lePauvre = new AbstractPerson();
-		if (nombreDePersonnes>0)
-			lePauvre = personnes.elementAt(0);
-		
-		//Log.Disp("A " + lePauvre.getPosition() +" nbP " +nombreDePersonnes);
-		
+		if (nombreDePersonnes<=0)
+			return null;
 		for (int i=0; i<nombreDePersonnes; i++) {
 			if (personnes.elementAt(i).getNombreJourMalade()>lePauvre.getNombreJourMalade()) {
 				lePauvre = personnes.elementAt(i);
-				// Log.Disp("lePauvre" + lePauvre.getPosition());
 			}
 		}
 		return lePauvre;
@@ -172,16 +167,13 @@ public class SharedMethods {
 	 */
 	static public Vector<AbstractPerson> plusMaladeAuMoinsMalade(Vector<AbstractPerson> personnes) {
 		int size = personnes.size();
-		
 		Vector<AbstractPerson> copyPersonnes = SharedMethods.copyVector(personnes);
 		Vector<AbstractPerson> result = new Vector<AbstractPerson>();
-		
 		for (int i=0; i<size; i++) {
 			AbstractPerson lePauvre = SharedMethods.getPersonneLaPlusMaladeFrom(copyPersonnes);
 			result.add(lePauvre);
 			copyPersonnes.remove(lePauvre);
 		}
-		
 		return result;
 	}
 	/**

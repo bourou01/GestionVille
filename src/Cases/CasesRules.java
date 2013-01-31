@@ -15,11 +15,11 @@ public class CasesRules {
 	 * @param 
 	 * @return 
 	 *  Un terrain vague peut augmenter le niveau de contamination d'un autre terrain vague 
-	 *  dans son voisinage (les 8 cases l'entourant), seulement si son niveau est supérieure aux voisins considérés. 
-	 *  Dans ce cas la probabilité d'avoir une augmentation est de 15% 
-	 *  et l'augmentation est comprise entre 1% et 20% de la différence de niveau de contamination entre les deux terrains.
-	 *  Il est important de noter que les maisons, hôpitaux et casernes ne peuvent voir leur niveau de contamination
-	 *  augmenter à causes de terrains vagues voisins (et réciproquement), mais seulement à cause des citoyens présents.
+	 *  dans son voisinage (les 8 cases l'entourant), seulement si son niveau est supeÃÅrieure aux voisins consideÃÅreÃÅs. 
+	 *  Dans ce cas la probabiliteÃÅ d'avoir une augmentation est de 15% 
+	 *  et l'augmentation est comprise entre 1% et 20% de la diffeÃÅrence de niveau de contamination entre les deux terrains.
+	 *  Il est important de noter que les maisons, hoÃÇpitaux et casernes ne peuvent voir leur niveau de contamination
+	 *  augmenter aÃÄ causes de terrains vagues voisins (et reÃÅciproquement), mais seulement aÃÄ cause des citoyens preÃÅsents.
 	 */
 	static public void regle1(Ville ville, AbstractCase caseActuel) {
 		Vector<Position> positionsAutour = SharedMethods.casesAround(ville, caseActuel.getPosition());
@@ -46,9 +46,9 @@ public class CasesRules {
 	 * Regle 2
 	 * @param 
 	 * @return 
-	 * Seul les citoyens malades, les médecins et les pompiers peuvent entrer dans un hôpital.
-	 * Un citoyen malade entrant dans un hôpital est directement pris en charge. 
-	 * Son risque de moralité est alors divisé par 4. 
+	 * Seul les citoyens malades, les meÃÅdecins et les pompiers peuvent entrer dans un hoÃÇpital.
+	 * Un citoyen malade entrant dans un hoÃÇpital est directement pris en charge. 
+	 * Son risque de moraliteÃÅ est alors diviseÃÅ par 4. 
 	 */
 	static public boolean regle2(AbstractCase lieuCourant, AbstractPerson p) {
 		boolean admissible = false;
@@ -78,8 +78,8 @@ public class CasesRules {
 	 * Regle 3
 	 * @param 
 	 * @return 
-	 * De plus, son niveau de contamination baisse à chaque tour de 10%,
-	 * s'il était supérieur à celui de l’hôpital, sans pouvoir devenir inférieur à celui de l'hôpital. 
+	 * De plus, son niveau de contamination baisse aÃÄ chaque tour de 10%,
+	 * s'il eÃÅtait supeÃÅrieur aÃÄ celui de l‚ÄôhoÃÇpital, sans pouvoir devenir infeÃÅrieur aÃÄ celui de l'hoÃÇpital. 
 	 */
 	static public void regle3(AbstractCase hospital) {
 		double niveauContaminationHospital = hospital.getNiveauContamination();
@@ -98,9 +98,9 @@ public class CasesRules {
 	 * Regle 4
 	 * @param 
 	 * @return 
-	 * Le nombre de personnes guéries, par tour, de leurs maladies 
-	 * est de un plus le nombre de médecins (non malade) dans l’hôpital.
-	 * Les personnes les plus malades (en nombre de jours) sont soignées en premier. 
+	 * Le nombre de personnes gueÃÅries, par tour, de leurs maladies 
+	 * est de un plus le nombre de meÃÅdecins (non malade) dans l‚ÄôhoÃÇpital.
+	 * Les personnes les plus malades (en nombre de jours) sont soigneÃÅes en premier. 
 	 */
 	static public void regle4(AbstractCase hospital) {
 		
@@ -123,8 +123,8 @@ public class CasesRules {
 	 * Regle 5
 	 * @param 
 	 * @return 
-	 * Un médecin entrant dans un hôpital reçoit 10 kits de soins permettant,
-	 * chacun, de guérir un malade situé en dehors de l'hôpital.
+	 * Un meÃÅdecin entrant dans un hoÃÇpital recÃßoit 10 kits de soins permettant,
+	 * chacun, de gueÃÅrir un malade situeÃÅ en dehors de l'hoÃÇpital.
 	 */
 	static public void regle5(AbstractPerson p) {
 		if (p instanceof Medecin) {
@@ -136,10 +136,10 @@ public class CasesRules {
 	 * @param 
 	 * @return 
 	 * Un citoyen entrant dans une caserne voit son niveau de contamination diminuer de 20% par tour.
-	 *  Un citoyen est donc totalement décontaminé en un maximum de 5 tours, 
-	 *  mais cela n'a aucune incidence sur son status de malade et seul un médecin ou un hôpital pourra le soigner. 
-	 *  De plus, il reçoit un appareil lui permettant de mesurer le niveau de contamination des personnes 
-	 *  et des lieux dans son voisinage immédiat, ainsi que de la case sur laquelle il est situé.
+	 *  Un citoyen est donc totalement deÃÅcontamineÃÅ en un maximum de 5 tours, 
+	 *  mais cela n'a aucune incidence sur son status de malade et seul un meÃÅdecin ou un hoÃÇpital pourra le soigner. 
+	 *  De plus, il recÃßoit un appareil lui permettant de mesurer le niveau de contamination des personnes 
+	 *  et des lieux dans son voisinage immeÃÅdiat, ainsi que de la case sur laquelle il est situeÃÅ.
 	 */
 	static public void regle6(AbstractCase caserne) {
 		Vector<AbstractPerson> citoyens = caserne.getCitoyens();
@@ -159,17 +159,24 @@ public class CasesRules {
 	 * Regle 7
 	 * @param 
 	 * @return 
-	 * Un pompier entrant dans une case brûle automatiquement tous les corps des morts.
+	 * 1) Un pompier entrant dans une case bruÃÇle automatiquement tous les corps des morts.
+	 * 
+	 * 2) En entrant dans une caserne, un pompier reçoit un pulvérisateur permettant de décontaminer jusqu'à 1000% 
+	 * de niveau de radiation.
 	 */
 	static public void regle7(AbstractCase lieuCourant, AbstractPerson p) {
+		
 		if (p instanceof Pompier) {
+			
+			// 1)
 			Vector<AbstractPerson> morts = SharedMethods.getMortsFrom(lieuCourant.getVillageois());
 			for (int i=0; i<morts.size(); i++) {
 				AbstractPerson currentMort = morts.elementAt(i);
 				((Pompier)p).brulerCadavre(currentMort);
 			}
-			((Pompier)p).setNiveauPulverisateur(10.0); /// 1000% = 10
-			
+			// 2)
+			if (lieuCourant instanceof Caserne)
+				((Pompier)p).setNiveauPulverisateur(10.0); /// 1000% = 10
 		}
 	}
 	/**

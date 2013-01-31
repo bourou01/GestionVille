@@ -48,19 +48,5 @@ public class Caserne extends AbstractCase {
 		
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////// Regles d'entree sortie
-	@Override
-	public boolean accueillirPersonne(AbstractPerson newP) {
-		
-		/**************************
-		 *		 REGLE 7 : Un pompier entrant dans une case brûle automatiquement tous les corps des morts. + reçoi pulverisateur
-		 **************************/
-		CasesRules.regle7(this, newP);
-		
-		
-		return this.addPerson(newP);
-	}
-	
 	
 }

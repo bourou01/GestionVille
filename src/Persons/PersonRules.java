@@ -81,7 +81,7 @@ public class PersonRules {
 			double cinqPourcentsDuLieu = 0.05*niveauContaminationLieu;
 			double result = ProbabilityManager.augmentation(niveauContaminationPersonne, cinqPourcentsDuLieu);
 			p.setNiveauContamination(result);
-		}	
+		}
 	}
 	/**
 	 * Regle 5
@@ -134,9 +134,8 @@ public class PersonRules {
 	 * sa tenue (ne le rendant donc pas malade).
 	 * 
 	 */
-	static public void s(AbstractCase caseActuel, AbstractPerson p) {
+	static public void regle6(AbstractCase caseActuel, AbstractPerson p) {
 		/// 1)
-		//Vector<AbstractPerson> personnes = caseActuel.getCitoyens();
 		Vector<AbstractPerson> personnes = caseActuel.getVillageois();
 		int size = personnes.size();
 		for (int i=0; i<size; i++) {
@@ -209,6 +208,10 @@ public class PersonRules {
 	static public void regle7(AbstractCase lieuActuel, AbstractPerson p) {
 		AbstractPerson lePlusMalade = SharedMethods.getPersonneLaPlusMaladeFrom(lieuActuel.getVillageois());
 		
+		if (lePlusMalade == null)
+			return;
+					
+		//Log.Disp("LE PLUS MAL : " + lePlusMalade.ID());
 		if (p.isMalade()) { /// ne peut soigner personnes
 			/// mais peut se soigner lui - m√™me si nombreJourMalade <= 10
 			if (p.getNombreJourMalade() <= 10) {
@@ -258,37 +261,9 @@ public class PersonRules {
 	 * Regle 9
 	 * @param 
 	 * @return 
-	 * Un pompier peut eÃÇtre contamineÃÅ et malade, mais graÃÇce aÃÄ sa tenue de protection, 
-	 * la niveau de contamination augmente 10 fois moins vite que ce qu'il recÃßoit d'un lieu et 
-	 * dans 70% des cas, le virus propageÃÅ par un autre citoyen n'arrive pas aÃÄ traverser
-	 * sa tenue (ne le rendant donc pas malade).
 	 */
 	static public void regle9(AbstractCase lieuActuel, AbstractPerson p) {
-		// TODO le citoyen ne transmettent pas leur maladie qu'au citoyens voisins?
-		
-		/*
-		/// contamination venant des personnes
-		int chancesDeDevenirMalade = (int)(p.getNiveauContamination()*100);
-		int r = RandomManager.randInt(0, 100);
-		if ( (r>=0) && (r <= chancesDeDevenirMalade) ) {
-			p.setMalade(true);
-		}
-		
-		
-		/// contamination vena des lieux
-		double niveauContaminationPersonne = p.getNiveauContamination();
-		double niveauContaminationLieu = cDest.getNiveauContamination();
-		if (deplacee) { /// 2%
-			double deuxPourcentsDuLieu = 0.02*niveauContaminationLieu;
-			double result = ProbabilityManager.augmentation(niveauContaminationPersonne, deuxPourcentsDuLieu);
-			p.setNiveauContamination(result);
 
-		}else { /// 5%
-			double cinqPourcentsDuLieu = 0.05*niveauContaminationLieu;
-			double result = ProbabilityManager.augmentation(niveauContaminationPersonne, cinqPourcentsDuLieu);
-			p.setNiveauContamination(result);
-		}
-		*/
 		
 	}
 	/**

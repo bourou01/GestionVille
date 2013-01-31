@@ -104,11 +104,6 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			 *		 REGLE 8 : décontamination, il peut diminuer jusqu'à 20% par tour la contamination d'un citoyen ou d'un lieu ...
 			 **************************/
 			PersonRules.regle8(caseActuel, this);
-			
-			/**************************
-			 *		 REGLE 9 : pompier peut être contaminé et malade
-			 **************************/
-			PersonRules.regle9(caseActuel, this);	
 		}
 		
 		/** Règles communs */
@@ -276,20 +271,7 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	/*
-	@Override
-	public boolean moveToCase(Position pDest) {
-		/// calcule la case source
-		AbstractCase src = this.ville.getCase(this.getPosition());
-		/// calcule la case destination
-		AbstractCase dest = this.ville.getCase(pDest);
-		this.movePersonFromCaseToCase(src, dest); /// ne prends pas en compte le depassement de population
-		return true;
 
-	}
-	*/
-	
 	@Override
 	public boolean moveToCase(Position pDest) {
 		/// calcule la case source
@@ -307,7 +289,6 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// 
-	
 	public boolean movePersonFromCaseToCase(AbstractCase src, AbstractCase dest) {
 		if (dest.accueillirPersonne(this)) { /// ESSAYE de L'ajouter a la nouvelle case;
 			this.setPosition(dest.getPosition()); /// Echange les positions
@@ -319,11 +300,7 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			return false;
 		}
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public String toString() {
 		

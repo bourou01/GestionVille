@@ -11,7 +11,6 @@ import Helpers.ProbabilityManager;
 
 import java.util.*;
 
-
 public class Pompier extends AbstractPerson  {
 
 	private double niveauPulverisateur;
@@ -25,13 +24,11 @@ public class Pompier extends AbstractPerson  {
 		
 	}
 
-	
 	//////////////////////////////////////////////////////////////////////////////
 	///////////////// REGLES DE MOUVEMENT SPECIFIQUES
 	void choisirCaseLaPlusContaminee() {
 		
 	}
-	
 	
 	//////////////////////////////////////////////////////////////////////////////
 	///////////////// REGLES DE TRAITEMENT SPECIFIQUES
@@ -72,7 +69,6 @@ public class Pompier extends AbstractPerson  {
 
 	//////////////////////////////////////////////////////////////////////////////
 	///////////////// SETTERS/GETTERS
-
 	public double getNiveauPulverisateur() {
 		return niveauPulverisateur;
 	}

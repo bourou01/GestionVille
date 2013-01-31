@@ -11,9 +11,7 @@ public class Main {
 		
 		/// avec swing
 		GestionVilleController ihm = new GestionVilleController();
-		
-		
-		
+
 	}
 	
 	

@@ -94,7 +94,7 @@ public class AbstractCase implements ActionManager, ContagionManager{
 		else
 			this.villageois.add(newP);
 		
-		Log.Disp(this.ID() + "ACCUEIL " + newP.ID());
+		//Log.Disp(this.ID() + "ACCUEIL " + newP.ID());
 		
 		return true;
 		

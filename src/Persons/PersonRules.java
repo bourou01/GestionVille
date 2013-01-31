@@ -12,8 +12,8 @@ public class PersonRules {
 	 * Regle 1
 	 * @param 
 	 * @return 
-	 * A chaque tour, un citoyen contaminé à un risque (probabilité) 
-	 * de devenir malade qui est égal à son niveau de contamination.
+	 * A chaque tour, un citoyen contamineÃÅ aÃÄ un risque (probabiliteÃÅ) 
+	 * de devenir malade qui est eÃÅgal aÃÄ son niveau de contamination.
 	 */
 	static public void regle1(AbstractPerson p) {
 		int chancesDeDevenirMalade = (int)(p.getNiveauContamination()*100);
@@ -26,20 +26,21 @@ public class PersonRules {
 	 * Regle 2
 	 * @param 
 	 * @return 
-	 * A partir du 5ème jour de maladie, il peut décéder des suites de sa maladie.
-	 *  La probabilité de décéder est de 5% par jour de maladie au delà de 5ème jour de maladie. 
-	 *  Ce risque de décès est diminué de moitié si un médecin est dans le même lieu. 
+	 * A partir du 5ème jour de maladie, il peut décéder des suites de sa maladie. 
+	 * La probabilité de décéder est de 5% par jour de maladie au delà de 5ème jour de maladie.
+	 * Ce risque de décès est diminué de moitié si un médecin est dans le même lieu
 	 */
 	static public void regle2(AbstractCase caseActuel, AbstractPerson p) {
 		if (p.getNombreJourMalade() >= 5) {
-			int probabiliteDeMourrir =  (int)((double)( (p.getNombreJourMalade()-5) * 0.05) * 100 );
-			/// si medecin - risque divisé par 2
+			int probabiliteDeMourrir =  (int)((double)(  (p.getNombreJourMalade()-5) *0.05 ) );
+
+			/// si medecin - risque divis√© par 2
 			int nombreMedecins = caseActuel.getMedecins().size();
 			if (nombreMedecins > 0)
 				probabiliteDeMourrir /= 2;
 			
-			int r = RandomManager.randInt(0, 100);
-			if ( (r>=0) && (r<=probabiliteDeMourrir) ) {
+			int tirage = RandomManager.randInt(0, 100);
+			if ( (tirage>0) && (tirage<=probabiliteDeMourrir) ) {
 				 p.setMort(true);
 			}
 		}	
@@ -48,7 +49,7 @@ public class PersonRules {
 	 * Regle 3
 	 * @param 
 	 * @return 
-	 * Par contre, un déplacement de citoyen ne doit jamais conduire à un dépassement de capacité maximale.
+	 * Par contre, un deÃÅplacement de citoyen ne doit jamais conduire aÃÄ un deÃÅpassement de capaciteÃÅ maximale.
 	 */
 	static public boolean regle3(AbstractCase dest) {
 		/// verifie si ' pas de depassement de population '
@@ -64,9 +65,9 @@ public class PersonRules {
 	 * Regle 4
 	 * @param 
 	 * @return 
-	 * Un citoyen en se déplaçant voit son niveau de contamination augmenter 
+	 * Un citoyen en se deÃÅplacÃßant voit son niveau de contamination augmenter 
 	 * seulement de 2% du niveau de contamination du lieu sur lequel il arrive 
-	 * et de 5% s'il reste sur la même case.
+	 * et de 5% s'il reste sur la meÃÇme case.
 	 */
 	static public void regle4(AbstractPerson p, AbstractCase cDest, boolean deplacee) {
 		double niveauContaminationPersonne = p.getNiveauContamination();
@@ -86,51 +87,78 @@ public class PersonRules {
 	 * Regle 5
 	 * @param 
 	 * @return 
-	 * Un citoyen contaminé augmente de 1%, de son niveau de contamination, 
-	 * celui du lieu sur lequel il est situé
-￼￼	 * (une caserne à un niveau de contamination toujours nulle
- 	 * et un hôpital ne répercute que 1⁄4 de l'augmentation grâce aux conditions d'hygiène élevées)
+	 *Un citoyen en se déplaçant voit son niveau de contamination augmenter seulement de 2% du niveau de contamination du lieu 
+	 *sur lequel il arrive et de 5% s'il reste sur la même case. Un citoyen contaminé augmente de 1%, 
+	 *de son niveau de contamination, celui du lieu sur lequel il est situé￼￼ 
+	 *(une caserne à un niveau de contamination toujours nulle et un hôpital ne répercute que 1⁄4 de 
+	 *l'augmentation grâce aux conditions d'hygiène élevées).
 	 */
 	static public void regle5(AbstractCase lieuActuel, AbstractPerson p) {
+		
 		double niveauContaminationPersonne = p.getNiveauContamination();
 		double niveauContaminationLieu = lieuActuel.getNiveauContamination();
-		double unPourcentDuLieu = 0.01*niveauContaminationLieu;
-		double result = ProbabilityManager.augmentation(niveauContaminationPersonne, unPourcentDuLieu);
+
+		double unPourcentDuLieu =  0.01*niveauContaminationLieu;
+		double result = ProbabilityManager.augmentation(niveauContaminationPersonne, unPourcentDuLieu);;
+
+		if (p instanceof Pompier) {
+			result /= 10.0; 
+		}
+
 		if (lieuActuel instanceof Caserne) {
 			/// ba ... rien
+			return;
 		}
+		
 		else if (lieuActuel instanceof Hospital) {
-			p.setNiveauContamination( (1/4) * result);
+			result *= (1/4);
 		}
-		else {
-			p.setNiveauContamination(result);
-		}
+		p.setNiveauContamination( result );
 	}
 	
 	/**
 	 * Regle 6
 	 * @param 
 	 * @return 
-	 * 1)De plus, un malade (mort ou vivant) à 10% de probabilité de transmettre
-	 * le virus de sa maladie aux citoyens dans le même lieu, 
-	 * le citoyen recevant le virus est alors automatiquement malade. 
 	 * 
-	 * 2)Si le malade est dans un terrain vague, il a également 1% de chance de transmettre 
-	 * le virus aux citoyens dans les terrains vagues voisins.
+	 * 1) De plus, un malade (mort ou vivant) à 10% de probabilité de transmettre 
+	 *  le virus de sa maladie aux citoyens dans le même lieu, 
+	 *  le citoyen recevant le virus est alors automatiquement malade. 
+	 *  
+	 * 2) Si le malade est dans un terrain vague, il a également 1% de chance de transmettre 
+	 *  le virus aux citoyens dans les terrains vagues voisins.
 	 * 
-	 * 
+	 * 3) Un pompier peut être contaminé et malade, mais grâce à sa tenue de protection, 
+	 * la niveau de contamination augmente 10 fois moins vite que ce qu'il reçoit d'un lieu 
+	 * et dans 70% des cas, le virus propagé par un autre citoyen n'arrive pas à traverser 
+	 * sa tenue (ne le rendant donc pas malade).
 	 * 
 	 */
-	static public void regle6(AbstractCase caseActuel, AbstractPerson p) {
+	static public void s(AbstractCase caseActuel, AbstractPerson p) {
 		/// 1)
-		Vector<AbstractPerson> personnes = caseActuel.getCitoyens();
+		//Vector<AbstractPerson> personnes = caseActuel.getCitoyens();
+		Vector<AbstractPerson> personnes = caseActuel.getVillageois();
 		int size = personnes.size();
 		for (int i=0; i<size; i++) {
-			// TODO tout le monde en même temps ou 1 à 1
+			// TODO tout le monde en m√™me temps ou 1 √† 1
+			AbstractPerson personne = personnes.elementAt(i);
+			
 			int tirage = RandomManager.randInt(0, 100);
-			if ((tirage>=0) && (tirage<=10)) { /// 1 tirage par citoyen
-				AbstractPerson citoyen = personnes.elementAt(i);
-				citoyen.setMalade(true);
+			if ((tirage>0) && (tirage<=10)) { /// 1 tirage par citoyen
+				
+				/// CAS CITOYEN MEDECIN
+				if ((personne instanceof Citoyen) || (personne instanceof Medecin)) {
+					personne.setContaminated(true);
+					personne.setMalade(true);
+				}
+				/// CAS POMPIER
+				else if (personne instanceof Pompier) {
+					int tirage2 = RandomManager.randInt(0, 100);
+					if ((tirage2>0) && (tirage2<=30)) {
+						personne.setContaminated(true);
+						personne.setMalade(true);
+					}
+				}
 			}
 		}
 		/// 2)
@@ -140,15 +168,26 @@ public class PersonRules {
 			for (int i=0; i<size2; i++) {
 				AbstractCase currentCase = lieuxVoisins.elementAt(i);
 				if (currentCase instanceof TerrainVague) { /// si Terrain Vague
-					int size3 = currentCase.getCitoyens().size();
-					for (int j=0; j<size3; j++) {
+					
+					Vector<AbstractPerson> villageois = caseActuel.getVillageois();
+					for (int j=0; j<villageois.size(); j++) {
 						
-						AbstractPerson currentCitoyen = currentCase.getCitoyens().elementAt(j); /// Que le citoyens
-						int tirage = RandomManager.randInt(0, 100);
-						// TODO tout le monde en même temps ou 1 à 1
-						if ((tirage>=0) && (tirage<=1)) { /// 1 tirage par citoyen
-							currentCitoyen.setContaminated(true); /// le contamine !
-							// TODO contamination ou maladie
+						AbstractPerson currentPersonne = villageois.elementAt(j); /// Que le citoyens
+						/// CAS CITOYEN MEDECIN
+						if ((currentPersonne instanceof Citoyen) || (currentPersonne instanceof Medecin)) {
+						
+							int tirage = RandomManager.randInt(0, 100);
+							// TODO tout le monde en m√™me temps ou 1 √† 1
+							if ((tirage>0) && (tirage<=1)) { /// 1 tirage par citoyen
+								currentPersonne.setContaminated(true); /// le contamine !
+								
+							}
+						}
+						/// CAS POMPIER
+						if (currentPersonne instanceof Pompier) {
+							// TODO cas particulir pour pompier
+							
+							
 						}
 					}	
 				}	
@@ -160,18 +199,18 @@ public class PersonRules {
 	 * Regle 7
 	 * @param 
 	 * @return  
-	 * Un médecin peut soigner qu'un seul malade par jour et 
-	 * il soignera toujours celui le plus malade s'ils sont plusieurs dans la même case. 
-	 * Un médecin malade ne peut soigner aucun autre citoyen tant qu'il est malade,
-	 * mais s'il est malade depuis moins de 10 jours6 et qu'il possède encore un kit de soins, 
-	 * il peut alors l'utiliser sur lui même pour guérir de sa maladie. 
-	 * Un médecin n'a pas besoin de kit de soins pour soigner un malade lorsqu'il est dans un hôpital.
+	 * Un meÃÅdecin peut soigner qu'un seul malade par jour et 
+	 * il soignera toujours celui le plus malade s'ils sont plusieurs dans la meÃÇme case. 
+	 * Un meÃÅdecin malade ne peut soigner aucun autre citoyen tant qu'il est malade,
+	 * mais s'il est malade depuis moins de 10 jours6 et qu'il posseÃÄde encore un kit de soins, 
+	 * il peut alors l'utiliser sur lui meÃÇme pour gueÃÅrir de sa maladie. 
+	 * Un meÃÅdecin n'a pas besoin de kit de soins pour soigner un malade lorsqu'il est dans un hoÃÇpital.
 	 */
 	static public void regle7(AbstractCase lieuActuel, AbstractPerson p) {
 		AbstractPerson lePlusMalade = SharedMethods.getPersonneLaPlusMaladeFrom(lieuActuel.getVillageois());
 		
 		if (p.isMalade()) { /// ne peut soigner personnes
-			/// mais peut se soigner lui - même si nombreJourMalade <= 10
+			/// mais peut se soigner lui - m√™me si nombreJourMalade <= 10
 			if (p.getNombreJourMalade() <= 10) {
 				p.setMalade(false);
 			}
@@ -186,9 +225,9 @@ public class PersonRules {
 	 * Regle 8
 	 * @param 
 	 * @return 
-	 * Pour la décontamination, il peut diminuer jusqu'à 20% par tour la contamination d'un citoyen ou d'un lieu.
-	 * Il commencera toujours par décontaminer les personnes avant le lieu sur lequel il est situé.
-	 * Il peut utiliser jusqu'à un maximum du 10ème de la capacité du pulvérisateur par tour.
+	 * Pour la deÃÅcontamination, il peut diminuer jusqu'aÃÄ 20% par tour la contamination d'un citoyen ou d'un lieu.
+	 * Il commencera toujours par deÃÅcontaminer les personnes avant le lieu sur lequel il est situeÃÅ.
+	 * Il peut utiliser jusqu'aÃÄ un maximum du 10eÃÄme de la capaciteÃÅ du pulveÃÅrisateur par tour.
 	 */
 	static public void regle8(AbstractCase lieuActuel, AbstractPerson pompier) {
 				
@@ -219,9 +258,9 @@ public class PersonRules {
 	 * Regle 9
 	 * @param 
 	 * @return 
-	 * Un pompier peut être contaminé et malade, mais grâce à sa tenue de protection, 
-	 * la niveau de contamination augmente 10 fois moins vite que ce qu'il reçoit d'un lieu et 
-	 * dans 70% des cas, le virus propagé par un autre citoyen n'arrive pas à traverser
+	 * Un pompier peut eÃÇtre contamineÃÅ et malade, mais graÃÇce aÃÄ sa tenue de protection, 
+	 * la niveau de contamination augmente 10 fois moins vite que ce qu'il recÃßoit d'un lieu et 
+	 * dans 70% des cas, le virus propageÃÅ par un autre citoyen n'arrive pas aÃÄ traverser
 	 * sa tenue (ne le rendant donc pas malade).
 	 */
 	static public void regle9(AbstractCase lieuActuel, AbstractPerson p) {

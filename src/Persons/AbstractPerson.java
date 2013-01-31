@@ -80,21 +80,25 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 	//////////////////////////// INTERFACE DE 'ActionManager'
 	@Override
 	public void action() {
+		/*
 		if (this.isMort())
 			return;
+		*/
 		
 		
 		AbstractCase caseActuel = this.getLieuCourant();
 		
 		/** Règles spécifique aux medecins */
-		if (this instanceof Medecin) { 
+		if ((this instanceof Medecin) && (!this.isMort())) {
+			
 			/**************************
 			 *		 REGLE 7 : Un médecin peut soigner qu'un seul malade par jour ... sur lui même pour guérir de sa maladie.
 			 **************************/
 			PersonRules.regle7(caseActuel, this);
 		}
+		
 		/** Règles spécifique aux pompiers */
-		else if (this instanceof Pompier) { 
+		else if ((this instanceof Pompier) && (!this.isMort())) { 
 			
 			/**************************
 			 *		 REGLE 8 : décontamination, il peut diminuer jusqu'à 20% par tour la contamination d'un citoyen ou d'un lieu ...
@@ -123,7 +127,6 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			
 			if (!this.isMort()) {
 				this.updateJoursMalade();
-				
 				/**************************
 				 *		 REGLE 2 : il peut décéder des suites de sa maladie
 				 **************************/
@@ -145,23 +148,7 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 		}
 	}
 	
-	
-	/*
-	////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////// INTERFACE DE 'MouvementRules'
-	@Override
-	public void deplacer() {
 
-		if (!isMort()) {
-			/// deplacement aleatoire
-			Position pAleatoire = this.choisirCaseAleatoirement();
-			//Log.Disp("Nature:"+this.toString()+" PosSrc:"+this.position+" PosDest:"+pAleatoire);
-			this.moveToCase(pAleatoire);
-		}
-	}
-	
-	*/
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// INTERFACE DE 'MouvementRules'
 	

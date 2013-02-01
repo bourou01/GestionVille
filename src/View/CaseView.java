@@ -81,10 +81,12 @@ public class CaseView extends TownElementView {
 	}
 	
 	private void updateDatas() {
-		int contamination = (int)(this.abstractCase.getNiveauContamination() * 255);
+		int contamination = (int)( this.abstractCase.getNiveauContamination() * 255 *(5/2) );
+		contamination = Math.min(255, contamination);
 		this.contaminationLevelColor = new Color(255, 
 												 255-contamination,
 												 255-contamination);
+		
 		this.drawPersons();
 		
 	}

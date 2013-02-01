@@ -36,13 +36,11 @@ public class MapViewPanel extends JPanel {
 		
 		super.setBackground(SEP_COLOR);
 		
-		/** DŽfinit la tainne du JscrollPane */
+		/** DŽfinit la taille du JscrollPane */
 		super.setPreferredSize(new Dimension(
 				maVille.getLignes()*RELATIVE_X_GRAPHIC + SEP,
 				maVille.getColonnes()*RELATIVE_Y_GRAPHIC + SEP
 				));
-		
-		
 		this.drawMap();
 	}
 	

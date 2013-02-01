@@ -97,19 +97,18 @@ public class GestionVilleController extends JFrame {
 	 * 
 	 */
 	private void addPanels() {
-
 		/** Construction et Initialisation*/
 		 this.mapViewPanel = new MapViewPanel();
 		 this.mapViewScrollPane = new JScrollPane(this.mapViewPanel);
 		 this.mapViewScrollPane.getVerticalScrollBar().setUnitIncrement(CaseView.WIDTH/2);
 		 
-		 
+		 /** La console */
 		 this.consoleViewPanel = new ConsoleViewPanel();
 		 this.consoleViewScrollPane = new JScrollPane(this.consoleViewPanel);
 
+		 /** La vue d'informations */
 		 this.debugViewPanel = new DebugViewPanel();
 		 this.debugViewPanel.gestionVilleController = this;
-		 
 		 
 		 /** On construit enfin notre séparateur */
 		 split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this.debugViewPanel, this.consoleViewScrollPane);

@@ -76,7 +76,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	//////////////////////////// Regles d'entree sortie
 	public boolean accueillirPersonne(AbstractPerson newP) { /// ajoute tout le monde
 		
-		
 		return this.addPerson(newP);
 		
 	}
@@ -219,11 +218,9 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public Position getPosition() {
 		return position;
 	}
-
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-
 	public Vector<AbstractPerson> getVillageois() {
 		return villageois;
 	}
@@ -233,11 +230,9 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public int getNombreCitoyensMax() {
 		return nombreCitoyensMax;
 	}
-
 	public void setNombreCitoyensMax(int nombreCitoyensMax) {
 		this.nombreCitoyensMax = nombreCitoyensMax;
 	}
-
 	public Ville getVille() {
 		return ville;
 	}
@@ -245,7 +240,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public void setVille(Ville ville) {
 		this.ville = ville;
 	}
-	
 	public Vector<AbstractPerson> getCitoyens() {
 		citoyens.clear();
 		citoyens = new Vector<AbstractPerson>();
@@ -288,7 +282,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public void setPompiers(Vector<AbstractPerson> pompiers) {
 		this.pompiers = pompiers;
 	}
-	
 	public double getNiveauContamination() {
 		return niveauContamination;
 	}

@@ -44,8 +44,7 @@ public abstract class TownElementView extends JPanel {
 		super.setBounds(frame.x, frame.y, frame.width, frame.height);
 	}
 	
-
-	  public void paintBorder(Graphics g, Rectangle baseFrame, int size, Color lineColor) {
+	public void paintBorder(Graphics g, Rectangle baseFrame, int size, Color lineColor) {
 
 		  	Insets thickness = new Insets(size, size, size, size);
 		  
@@ -55,7 +54,6 @@ public abstract class TownElementView extends JPanel {
 		  	int height = baseFrame.height;
 		  
 		    Color oldColor = g.getColor();
-		  
 		    g.setColor(lineColor);
 		    
 		    // top

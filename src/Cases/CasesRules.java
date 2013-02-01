@@ -14,12 +14,14 @@ public class CasesRules {
 	 * Regle 1
 	 * @param 
 	 * @return 
-	 *  Un terrain vague peut augmenter le niveau de contamination d'un autre terrain vague 
-	 *  dans son voisinage (les 8 cases l'entourant), seulement si son niveau est supeÃÅrieure aux voisins consideÃÅreÃÅs. 
-	 *  Dans ce cas la probabiliteÃÅ d'avoir une augmentation est de 15% 
-	 *  et l'augmentation est comprise entre 1% et 20% de la diffeÃÅrence de niveau de contamination entre les deux terrains.
-	 *  Il est important de noter que les maisons, hoÃÇpitaux et casernes ne peuvent voir leur niveau de contamination
-	 *  augmenter aÃÄ causes de terrains vagues voisins (et reÃÅciproquement), mais seulement aÃÄ cause des citoyens preÃÅsents.
+	 * Un terrain vague peut augmenter le niveau de contamination d'un autre terrain vague dans son voisinage
+	 * (les 8 cases l'entourant), seulement si son niveau est supérieure aux voisins considérés. 
+	 * Dans ce cas la probabilité d'avoir une augmentation est de 15%1 et l'augmentation est comprise 
+	 * entre 1% et 20% de la différence de niveau de contamination entre les deux terrains. 
+	 * Il est important de noter que les maisons, hôpitaux et casernes2 ne peuvent voir leur 
+	 * niveau de contamination augmenter à causes de terrains vagues voisins (et réciproquement), 
+	 * mais seulement à cause des citoyens présents.
+
 	 */
 	static public void regle1(Ville ville, AbstractCase caseActuel) {
 		Vector<Position> positionsAutour = SharedMethods.casesAround(ville, caseActuel.getPosition());
@@ -27,19 +29,18 @@ public class CasesRules {
 		for (int i=0; i<size; i++) {
 			AbstractCase c = ville.getCase(positionsAutour.elementAt(i));
 			if (c instanceof TerrainVague) { /// seulement
-				///Log.Disp("Terrain Vague");
 				double niveauContaminationCaseActuel = caseActuel.getNiveauContamination();
 				double niveauContaminationCaseAutour = c.getNiveauContamination();
 				if (niveauContaminationCaseActuel>niveauContaminationCaseAutour) {
 					int tirage = RandomManager.randInt(0, 100);
-					if ((tirage >= 0) && (tirage<=15)) {
-						double differanceNiveauContamination = niveauContaminationCaseActuel - niveauContaminationCaseActuel;
+					if ((tirage > 0) && (tirage<=15)) {
+						double differanceNiveauContamination = niveauContaminationCaseActuel - niveauContaminationCaseAutour;
 						double augmentation = ((double)RandomManager.randInt(0, 20)/100.0) * differanceNiveauContamination;
 						double result = ProbabilityManager.augmentation(c.getNiveauContamination(), augmentation);
 						c.setNiveauContamination(result);
 					}	
 				}
-			}	
+			}
 		}
 	}
 	/**

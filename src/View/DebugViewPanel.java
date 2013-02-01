@@ -1,10 +1,12 @@
 package View;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -12,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 
 import Controller.GestionVilleController;
 import Main.GestionVille;
@@ -21,13 +24,14 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	static private Color BG_COLOR  = Color.red;
+	
+	static private Color BG_COLOR  = Color.white;
 	private JButton nextStepButton;
+	private JSlider speedMoveSlider;
+	private Thread actionThread;
+	
 	
 	public GestionVilleController gestionVilleController;
-	
-	
 	/**
 	 * Constructeur par défaut
 	 * 
@@ -35,12 +39,9 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	 */
 	public DebugViewPanel() {
 		super();
-		
 		this.setBackground(BG_COLOR);
-		
 		/** Dessine la vue principale */
 		this.drawView();
-
 	}
 	
 	/**
@@ -83,6 +84,15 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 		this.nextStepButton.addActionListener(this);
 		add(this.nextStepButton);
 		
+		/** Slider **/
+	    this.speedMoveSlider = new JSlider();
+	    this.speedMoveSlider.setBackground(Color.red);
+	    this.speedMoveSlider.setBorder(BorderFactory.createTitledBorder("Vitesse de défilement"));
+	    this.speedMoveSlider.setMajorTickSpacing(20);
+	    this.speedMoveSlider.setMinorTickSpacing(5);
+	    this.speedMoveSlider.setPaintTicks(true);
+	    this.speedMoveSlider.setPaintLabels(true);
+	    add(this.speedMoveSlider, BorderLayout.SOUTH);
 		
 		
 		/** Pour que le panneaux puisse √©couter les √©v√©nements */
@@ -96,24 +106,51 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
-		Object source = event.getSource();
 		
+		Object source = event.getSource();
 		if (source == this.nextStepButton) {
 			
-			GestionVille.getVille().oneStep();
-			this.gestionVilleController.mapViewPanel.repaint();
-		}
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
+			
+			/*
+			for (int i=0; i<100; i++) {
+				GestionVille.getVille().oneStep();
+				this.gestionVilleController.mapViewPanel.repaint();
+			}
+			*/
 
-	
+			//Timer timer = new Timer(0, event);
+			
+			if (actionThread != null) 
+				return;
+			
+			
+			
+				//return;
+			
+			actionThread = new Thread(){
+				 public void run() {
+					 
+				while(true) {
+					  System.out.println("slaut");
+					  
+					  GestionVille.getVille().oneStep();
+					  gestionVilleController.mapViewPanel.repaint();
+					  
+					  
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				  
+				  }
+				 }
+				};
+				
+				actionThread.start();
+				
+			
+		}
+	}
 }

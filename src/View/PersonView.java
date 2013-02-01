@@ -31,7 +31,6 @@ public class PersonView extends TownElementView {
 	private int niveauContaminationJauge;
 	private int nombreJourMaladeJauge;
 	
-	
 	private AbstractPerson abstractPerson;
 	
 	/**
@@ -46,9 +45,8 @@ public class PersonView extends TownElementView {
 	/**
 	 * Constructeur avec frame
 	 * 
-	 * 
 	 */
-	public PersonView(int x, int y, AbstractPerson personToDraw) {
+	public PersonView(int x, int y, AbstractPerson personToDraw, String imagePath) {
 		 
 		super(new Rectangle(x,y,PERSON_WIDTH,PERSON_HEIGHT));
 
@@ -60,6 +58,8 @@ public class PersonView extends TownElementView {
 			this.setBackground(Color.red);
 		else if (abstractPerson instanceof Medecin)
 			this.setBackground(Color.blue);
+		
+	
 		
 		this.updateDraws();
 		

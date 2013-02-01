@@ -37,8 +37,7 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	public GestionVilleController gestionVilleController;
 	/**
 	 * Constructeur par défaut
-	 * 
-	 * 
+	 *  
 	 */
 	public DebugViewPanel() {
 		super();

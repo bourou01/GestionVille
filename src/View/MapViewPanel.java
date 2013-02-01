@@ -2,10 +2,14 @@ package View;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import Cases.AbstractCase;
+import Cases.Caserne;
+import Cases.Hospital;
+import Cases.Maison;
+import Cases.TerrainVague;
 import Main.GestionVille;
 import Villes.Ville;
 
@@ -49,11 +53,24 @@ public class MapViewPanel extends JPanel {
 		/** DŽssine la ville avec une instance de la ville courante */
 		for (int i=0; i<maVille.getLignes(); i++) {
 			for (int j=0; j<maVille.getColonnes(); j++) {
+				AbstractCase currentCase = maVille.getCase(i, j);
 				
 				int xGraphic = i*RELATIVE_X_GRAPHIC + SEP;
 				int yGraphic = j*RELATIVE_Y_GRAPHIC + SEP;
 				
-				CaseView cv = new CaseView(xGraphic,yGraphic, maVille.getCase(i, j));
+				String imagePath = new String();
+				if (currentCase instanceof TerrainVague) {
+					imagePath = "res/tv.png";
+				} else if (currentCase instanceof Maison) {
+					imagePath = "res/mz.png";
+				} else if (currentCase instanceof Hospital) {
+					imagePath = "res/hs.png";
+				} else if (currentCase instanceof Caserne) {
+					imagePath = "res/cz.png";
+				}
+				
+				
+				CaseView cv = new CaseView(xGraphic,yGraphic, currentCase, imagePath);
 				add(cv);
 				
 			}

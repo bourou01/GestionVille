@@ -6,8 +6,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import Debug.Log;
 
 
 public abstract class TownElementView extends JPanel {
@@ -29,9 +35,24 @@ public abstract class TownElementView extends JPanel {
 		this.scale = 1.0F;
 		this.borderSize = 10.0F;
 		this.borderColor = Color.red;
-		
-		super.setLayout(null);
+		//this.setBackgroundImage("res/grass.png");
+		//super.setLayout(null);
 	}
+	
+	  public void setBackgroundImage(String path) {
+		  BufferedImage img = TownElementView.loadImage(path);
+		  if (img == null)
+			  return;
+		  this.backgroundImage = img;
+		  
+		  Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+		  setPreferredSize(size);
+		  setMinimumSize(size);
+		  setMaximumSize(size);
+		  setSize(size);
+		  
+		  setLayout(null);
+	  }
 	
 	/**
 	 * Constructeur par défaut
@@ -44,8 +65,28 @@ public abstract class TownElementView extends JPanel {
 		super.setBounds(frame.x, frame.y, frame.width, frame.height);
 	}
 	
+	public TownElementView(Rectangle frame, String imagePath) {
+		this();
+		this.setBackgroundImage(imagePath);
+		super.setSize(new Dimension(frame.width, frame.height));
+		super.setBounds(frame.x, frame.y, frame.width, frame.height);
+	}
+	
+	static public BufferedImage loadImage(String path) {
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+		return myPicture;
+	}
+	   
+	public void drawBackgroud(Graphics g) {
+		g.drawImage(this.backgroundImage, 0, 0, null);
+	}
+	
 	public void paintBorder(Graphics g, Rectangle baseFrame, int size, Color lineColor) {
-
 		  	Insets thickness = new Insets(size, size, size, size);
 		  
 		  	int x = baseFrame.x;
@@ -76,6 +117,4 @@ public abstract class TownElementView extends JPanel {
 		    g.setColor(oldColor);
 		    
 		  }
-	
-	
 }

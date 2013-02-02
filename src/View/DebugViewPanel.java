@@ -2,6 +2,8 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +12,8 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,6 +25,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Controller.GestionVilleController;
+import Debug.Log;
 import Main.GestionVille;
 
 public class DebugViewPanel extends JPanel implements ActionListener {
@@ -33,6 +38,11 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	private static JButton nextStepButton;
 	private static JSlider speedMoveSlider;
 	private static Timer actionTimer;
+	
+	private static JLabel pompiersLabel;
+	private static JLabel medecinsLabel;
+	private static JLabel citoyensLabel;
+	
 	
 	public GestionVilleController gestionVilleController;
 	/**
@@ -56,8 +66,19 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 		    @Override
 		    public void actionPerformed(ActionEvent ae) {
 		        if (count < 1000 ) {
+		        	
 					GestionVille.getVille().oneStep();
 					gestionVilleController.mapViewPanel.repaint();
+					
+					medecinsLabel.setText("<html><FONT COLOR=BLUE><B>Medecins : "+ GestionVille.getVille().getNbMedecin() +
+							"</B></FONT></html>");
+
+					pompiersLabel.setText("<html><FONT COLOR=RED><B>Pompiers : "+ GestionVille.getVille().getNbPompier() +
+							"</B></FONT></html>");
+					
+					citoyensLabel.setText("<html><FONT COLOR=GRAY><B>Citoyens : "+ GestionVille.getVille().getNbCitoyen() +
+							"</B></FONT></html>");
+					
 		            count++;
 		        } else {//counter is at 1000 stop the timer
 		            ((Timer) ae.getSource()).stop();
@@ -65,8 +86,7 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 		    }
 		});
 	}
-	
-	
+
 	/**
 	 * Draw the view
 	 * 
@@ -75,53 +95,68 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	private void drawView() {
 		
 		/** Dessine le titre */
-		setLayout (new BoxLayout(this,BoxLayout.Y_AXIS));
-		JLabel label1 = new JLabel("DEBUG");
-		label1.setBackground(Color.gray);
-		label1.setForeground(Color.white);
-		label1.setOpaque(true);
-		add(label1);
-
-		/** Dessine les radios */
-		JRadioButton rb1 = new JRadioButton("Suivre tout le monde");
-		JRadioButton rb2 = new JRadioButton("Suivre une personne");
-		rb1.setSelected(true);
-		JPanel radioPanel = new JPanel(new GridLayout(2,2));
-		radioPanel.setBackground(Color.yellow);
-		ButtonGroup bgroup = new ButtonGroup();
-		bgroup.add(rb1); radioPanel.add(rb1);
-		bgroup.add(rb2); radioPanel.add(rb2);
-		add(radioPanel);
-
-		/** Dessine la liste des ids */
-		String[] valeurs = {"1","2","3","4","5","6","7","8", "9","10","11","12"};
-		JComboBox jcb = new JComboBox(valeurs);
-		jcb.setSelectedIndex(2);
-		add(jcb);
 		
+		setLayout (new BoxLayout(this,BoxLayout.Y_AXIS));
+
+
+	    
+	    String labelText = "<html><FONT COLOR=RED>Red</FONT> and " + "<FONT COLOR=BLUE>Blue</FONT> Text<br/><br/></html>";
+	    
+	    /**Conteneur Labels*/
+	    JPanel labelConteneur = new JPanel(new GridLayout(2,2));
+	    
+	    /**label 1*/
+	    medecinsLabel = new JLabel(new ImageIcon("res/images/hero-attack.gif"));
+	    medecinsLabel.setText("<html><FONT COLOR=BLUE><B>Medecins </B></FONT></html>");
+	    medecinsLabel.setHorizontalTextPosition(JLabel.CENTER);
+	    medecinsLabel.setVerticalTextPosition(JLabel.BOTTOM);
+	    medecinsLabel.setBorder(BorderFactory.createTitledBorder("Medecins"));
+	    labelConteneur.add(medecinsLabel);
+	    
+	    /**label 2*/
+	    pompiersLabel = new JLabel(new ImageIcon("res/images/orc-walk.gif"));
+	    pompiersLabel.setText("<html><FONT COLOR=RED><B>Pompiers </B></FONT></html>");
+	    pompiersLabel.setHorizontalTextPosition(JLabel.CENTER);
+	    pompiersLabel.setVerticalTextPosition(JLabel.BOTTOM);
+	    pompiersLabel.setBorder(BorderFactory.createTitledBorder("Pompiers"));
+	    labelConteneur.add(pompiersLabel);
+	    
+	    /**label 3*/
+	    citoyensLabel = new JLabel(new ImageIcon("res/images/golem-walk.gif"));
+	    citoyensLabel.setText("<html><FONT COLOR=GRAY><B>Citoyens </B></FONT></html>");
+	    citoyensLabel.setHorizontalTextPosition(JLabel.CENTER);
+	    citoyensLabel.setVerticalTextPosition(JLabel.BOTTOM);
+	    citoyensLabel.setBorder(BorderFactory.createTitledBorder("Citoyens"));
+	    labelConteneur.add(citoyensLabel);
+	    
 		/** Ajoute un boutons*/
-		nextStepButton = new JButton("GO GO");
+		nextStepButton = new JButton("GO");
 		nextStepButton.setBackground(Color.yellow);
+		nextStepButton.setFont(new Font("Garamond", Font.ITALIC, 70));
 		nextStepButton.setForeground(Color.darkGray);
 		nextStepButton.setOpaque(false);
 		nextStepButton.addActionListener(this);
-		add(nextStepButton);
-		
+		labelConteneur.add(nextStepButton);
+	    add(labelConteneur);
+
+		JPanel sliderConteneur = new JPanel(new GridLayout(1,1));
 		/** Slider **/
-	    speedMoveSlider = new JSlider();
+	    speedMoveSlider = new JSlider(JSlider.CENTER);
 	    speedMoveSlider.setBackground(Color.red);
 	    speedMoveSlider.setBorder(BorderFactory.createTitledBorder("Vitesse de défilement"));
-	    speedMoveSlider.setMajorTickSpacing(20);
-	    speedMoveSlider.setMinorTickSpacing(5);
+	    speedMoveSlider.setMajorTickSpacing(50);
+	    speedMoveSlider.setMinorTickSpacing(20);
 	    speedMoveSlider.setPaintTicks(true);
 	    speedMoveSlider.setPaintLabels(true);
 	    speedMoveSlider.addChangeListener(new MyChangeListener());
-	    add(speedMoveSlider, BorderLayout.SOUTH);
-	
+	    sliderConteneur.add(speedMoveSlider);
+	    add(sliderConteneur);
+	    
 		/** Autre */
 		setFocusable(true);
 		requestFocus();
 	}
+
 	static class MyChangeListener implements ChangeListener {
 		MyChangeListener() {
 		    }

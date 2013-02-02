@@ -1,6 +1,7 @@
 package Helpers;
 
 import Persons.AbstractPerson;
+import Persons.Medecin;
 import Villes.*;
 import Cases.*;
 import Debug.Log;
@@ -252,7 +253,6 @@ public class SharedMethods {
 		    }  
 		}  
 		return maxValue;  
-	}  
-
+	}
 	
 }

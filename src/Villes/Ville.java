@@ -457,18 +457,36 @@ public class Ville {
 		this.nbTerrainVagues = nbTerrainVagues;
 	}
 	public int getNbMedecin() {
+		nbMedecin = 0;
+		for (int i=0; i<villageois.size(); i++) {
+			AbstractPerson currentPerson = villageois.elementAt(i);
+			if (currentPerson instanceof Medecin)
+				nbMedecin++;
+		}
 		return nbMedecin;
 	}
 	public void setNbMedecin(int nbMedecin) {
 		this.nbMedecin = nbMedecin;
 	}
 	public int getNbCitoyen() {
+		nbCitoyen = 0;
+		for (int i=0; i<villageois.size(); i++) {
+			AbstractPerson currentPerson = villageois.elementAt(i);
+			if (currentPerson instanceof Citoyen)
+				nbCitoyen++;
+		}
 		return nbCitoyen;
 	}
 	public void setNbCitoyen(int nbCitoyen) {
 		this.nbCitoyen = nbCitoyen;
 	}
 	public int getNbPompier() {
+		nbPompier = 0;
+		for (int i=0; i<villageois.size(); i++) {
+			AbstractPerson currentPerson = villageois.elementAt(i);
+			if (currentPerson instanceof Pompier)
+				nbPompier++;
+		}
 		return nbPompier;
 	}
 	public void setNbPompier(int nbPompier) {

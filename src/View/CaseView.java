@@ -68,8 +68,7 @@ public class CaseView extends TownElementView {
 					
 					String imagePath = new String();
 					imagePath = "res/boat.png";
-					
-					
+
 					PersonView pv = new PersonView(yGraphic,xGraphic, currentPerson, imagePath);
 					add(pv);
 					

@@ -5,27 +5,13 @@
 
 package Persons;
 
-import Helpers.*;
-
-import Cases.AbstractCase;
-import Debug.*;
-import Cases.*;
-
-
 public class Citoyen extends AbstractPerson {
-
 	/**
-	 * Constructeur par d√©faut
+	 * Constructeur par defaut
 	 * @param 
 	 * @return 
 	 */
 	public Citoyen() {
 		super();
 	}
-	
-
-	
-	
-	
-	
 }

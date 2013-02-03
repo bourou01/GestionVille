@@ -43,33 +43,16 @@ public class GestionVille {
 	 * @return 
 	 */
 	public static Ville getVille() {
-		
 		if (ville != null)
 			return ville;
 		else
 			return initVille();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * test Avec Une Ville
+	 * @param 
+	 * @return 
+	 */
 	public static void testAvecUneVille() {
 		System.out.println("TEST AVEC 1 SEULE VILLE");
 				ville = null;
@@ -90,8 +73,4 @@ public class GestionVille {
 			System.out.println(ville.toString());
 		}
 	}
-	
-	
-	
-	
 }

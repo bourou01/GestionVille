@@ -18,7 +18,6 @@ public class ProbabilityManager {
 		System.out.println("salut: " + ProbabilityManager.percentOfAnInt(13, .1));	
 	}
 	*/
-	
 	/**
 	 * Fait une augmentation de 'val' de 'aug' pour cent
 	 * @param 
@@ -26,7 +25,7 @@ public class ProbabilityManager {
 	 */
 	public static double augmentation(double val, double aug) {
 		//return val*(1+aug);
-		return val + aug;
+		return Math.abs(Math.abs(val) + Math.abs(aug));
 	}
 	/**
 	 * Fait une diminution de 'val' de 'aug' pour cent

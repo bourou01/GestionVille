@@ -49,7 +49,6 @@ public class Ville {
 	 */
 	public Ville(int _lignes, int _colonnes) {
 		super();
-		
 		/// initialise le tableau pour gerer les places disponibles
 		this.lignes = _lignes;
 		this.colonnes = _colonnes;
@@ -74,11 +73,8 @@ public class Ville {
 					int _nbPompier,
 					int _nbCitoyen) {
 		this(_lignes, _colonnes);
-		
-		
 		this.initVillageois(_nbMedecin, _nbPompier, _nbCitoyen);		
 		this.initVille(_lignes, _colonnes, _nbHospital, _nbMaison, _nbCaserne, _nbTerrainVague);
-
 	}
 	/////////////////////////////////////////////////////////////////////////////
 	////////////////////// Am√©nagement de la ville
@@ -108,11 +104,9 @@ public class Ville {
 	 */
 	public void addCase(AbstractCase lieu) {
 		if (isEmpty(lieu.getPosition().getX(), lieu.getPosition().getY())) {
-			
 			/// ON AJOUTE NOTRE ELEMENT 
 			this.village[lieu.getPosition().getX()][lieu.getPosition().getY()] = lieu;
-			
-			/// ON NOTE QUE CETTE POSITION EST OCCUP√âE ET N'EST PLUS DISPONIBLE
+			/// ON NOTE QUE CETTE POSITION EST OCCUPEE ET N'EST PLUS DISPONIBLE
 			this.positionAvailable.remove(new 
 					Integer((lieu.getPosition().getX() * this.colonnes) + lieu.getPosition().getY()));
 		}
@@ -142,53 +136,40 @@ public class Ville {
 	 * @return 
 	 */
 	private void initVillageois(int _nbMedecin, int _nbPompier, int _nbCitoyen) {
-
 		this.nbMedecin = _nbMedecin;
 		this.nbPompier = _nbPompier;
 		this.nbCitoyen = _nbCitoyen;
-		
 		this.villageois = new Vector<AbstractPerson>();
-		
 		int currentId = 0; /// on rend les villageois uniques
-		
-		//////////////////// 8 médecins
+		//////////////////// 8 medecins (par defaut)
 		for (int i=0; i<this.nbMedecin; i++) {
 			Medecin newMedecin = new Medecin();
-			
 			newMedecin.setVille(this);
 			newMedecin.setNombreKitDeTraitement(5);
-			
 			currentId++;
 			newMedecin.setId(currentId);
 			this.villageois.addElement(newMedecin);
 		}
-		
-		//////////////////// 12 pompiers
+		//////////////////// 12 pompiers (par defaut)
 		for (int i=0; i<this.nbPompier; i++) {
 			Pompier newPompier = new Pompier();
-			
 			newPompier.setVille(this);
 			newPompier.setHasAppareilMesureContaminationLevel(true);
 			newPompier.setNiveauPulverisateur(10.0/2);
-			
 			currentId++;
 			newPompier.setId(currentId);
 			this.villageois.addElement(newPompier);
 		}
-		//////////////////// 50 citoyens
+		//////////////////// 50 citoyens (par defaut)
 		for (int i=0; i<this.nbCitoyen; i++) {
 			Citoyen newCitoyen = new Citoyen();
-			
 			/**************************
 			 *		 REGLE 2 : citoyens ont niveau de contamination compris entre 0% et 100%.
 			 **************************/
 			VilleRules.regle2(newCitoyen);
-			
 			newCitoyen.setVille(this);
-			
 			currentId++;
 			newCitoyen.setId(currentId);
-			
 			this.villageois.addElement(newCitoyen);
 		}
 	}
@@ -203,53 +184,40 @@ public class Ville {
 							int nbMaison,
 							int nbCaserne,
 							int nbTerrainVague) {
-		
 		this.lignes = lignes;
 		this.colonnes = colonnes;
-		
 		this.nbHospital = nbHospital;
 		this.nbMaison = nbMaison;
 		this.nbCaserne = nbCaserne;
 		this.nbTerrainVagues = nbTerrainVague;
-		
 		village = new AbstractCase[lignes][colonnes];
-
 		//////////////////// 1 hospital en son centre
 		for (int h=0; h<this.nbHospital; h++) {
 			int index = RandomManager.randInt(0, this.positionAvailable.size());
 			Integer position = positionAvailable.get(index);
 			Hospital newHospital = new Hospital(position / colonnes, position % colonnes);
 			newHospital.setVille(this);
-			
 			newHospital.setNombreCitoyensMax(this.habMaxHospital);
-			
 			addCase(newHospital);
 		}
-	
 		//////////////////// 2 casernes au nord-est et sud-ouest
 		for (int h=0; h<this.nbCaserne; h++) {
 			int index = RandomManager.randInt(0, this.positionAvailable.size());
 			Integer position = positionAvailable.get(index);
 			Caserne newCaserne = new Caserne(position / colonnes, position % colonnes);
 			newCaserne.setVille(this);
-			
 			newCaserne.setNombreCitoyensMax(this.habMaxCaserne);
-			
 			addCase(newCaserne);
 		}
-		 
-		//////////////////// 12 maisons amenagés aleatoirement
+		//////////////////// 12 maisons amenages aleatoirement
 		for (int h=0; h<this.nbMaison; h++) {
 			int index = RandomManager.randInt(0, this.positionAvailable.size());
 			Integer position = positionAvailable.get(index);
 			Maison newMaison = new Maison(position / colonnes, position % colonnes);
 			newMaison.setVille(this);
-			
 			newMaison.setNombreCitoyensMax(this.habMaxMaison);
-			
 			addCase(newMaison);
 		}
-		
 		//////////////////// 34 terrains vagues amenag√©s aleatoirement
 		Vector<AbstractCase> r1Array = new Vector<AbstractCase>(); /// servira pour la 'regle1'
 		for (int h=0; h<this.nbTerrainVagues; h++) {
@@ -257,76 +225,60 @@ public class Ville {
 			Integer position = positionAvailable.get(index);
 			TerrainVague newTerrainVague = new TerrainVague(position / colonnes, position % colonnes);
 			newTerrainVague.setVille(this);
-			
 			newTerrainVague.setNombreCitoyensMax(this.habMaxTerrainVagues);
-
 			r1Array.addElement(newTerrainVague);
-			
 			addCase(newTerrainVague);
 		}
-		
-		
 		/**************************
-		 *		 REGLE 1 : terrains vagues ont un niveau de contamination supérieure à zéro
+		 *		 REGLE 1 : terrains vagues ont un niveau de contamination superieure a zero
 		 **************************/
 		VilleRules.regle1(r1Array);
-
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////	AJOUT LES VILLAGEOIS DANS LE VILLAGE
 		this.ajouterVillageoies();
-		
 	}
-	
+	/**
+	 * ajoute les villageois dans les lieux
+	 * @param 
+	 * @return 
+	 */
 	public void ajouterVillageoies() {
-
-		int nombrePlaces =  this.habMaxTerrainVagues * this.nbTerrainVagues+ 
-							this.habMaxMaison * this.nbMaison+
-							this.habMaxHospital * this.nbHospital+
+		int nombrePlaces =  this.habMaxTerrainVagues * this.nbTerrainVagues	+ 
+							this.habMaxMaison * this.nbMaison	+
+							this.habMaxHospital * this.nbHospital	+
 							this.habMaxCaserne * this.nbCaserne;
-		
 		int nombreVillageois = this.villageois.size();
 		Log.Disp(nombreVillageois+"Villageois / "+nombrePlaces+"Places");
 		if (nombreVillageois>nombrePlaces) {
-
 			Log.Disp("ERREUR : PAS ASSEZ DE PLACES POUR TOUT LE MONDE (reduire le nombre d'habitants )");
-			return ;
+			return;
 		}
-		
 		int counter = 0;
 		while (counter < nombreVillageois) {
-		
 			int randX = RandomManager.randInt(0, this.lignes);
 			int randY = RandomManager.randInt(0, this.colonnes);
-			
 			if (!this.isEmpty(randX, randY)) {
 				AbstractCase c =this.getCase(randX, randY);
-			
 				int habitants = c.getVillageois().size();
 				int limite = c.getNombreCitoyensMax();
-				
 				if ( habitants < limite ) {
 					/// on a joute
 					AbstractPerson p = this.villageois.get(counter);
 					c.getVillageois().addElement(p);
-					
 					/// echange des positions
 					p.setPosition(c.getPosition());
-					
 					counter++;
-					//System.out.println(""+counter);
-				}
-				else {
-					//System.out.println("raté");
 				}
 			}
-			
-			//counter++;
 		}
 	}
-	
 	/////////////////////////////////////////////////////////////////////////////
 	////////////////////// Actions et Mouvements sur la Ville
-	
+	/**
+	 * jours suivant
+	 * @param 
+	 * @return 
+	 */
 	public void oneStep() {
 		if (this.village == null) {
 			Log.Disp( "ERREUR : VILLAGE NON INITIALISE");
@@ -338,16 +290,18 @@ public class Ville {
 		this.tours ++;
 		doMove();
 		doActions();
-		
 	}
-	
+	/**
+	 * avance d'un pas
+	 * @param 
+	 * @return 
+	 */
 	public void doActions(){
 		///// Actions des personnes
 		for (int i=0; i<this.villageois.size(); i++) {
 			AbstractPerson person = this.villageois.elementAt(i);
 			person.action();
 		}
-		
 		///// Actions des batiments
 		for (int i = 0; i < this.lignes; i++) {
 			for (int j = 0; j < this.colonnes; j++) {
@@ -358,17 +312,17 @@ public class Ville {
 			}
 		}
 	}
+	/**
+	 * deplacement
+	 * @param 
+	 * @return 
+	 */
 	public void doMove(){
-
 		for (int i=0; i<this.villageois.size(); i++) {
-			
 			AbstractPerson person = this.villageois.elementAt(i);
 			person.deplacer();
-			
 		}
-		
 	}
-
 	/////////////////////////////////////////////////////////////////////////////
 	////////////////////// DEBUG	
 	@Override
@@ -394,14 +348,59 @@ public class Ville {
 			}
 			result +="";
 		}
-		
-		
 		return result;
 	}
 	
+	/**
+	 * hospitals
+	 * @param 
+	 * @return 
+	 */
+	Vector<AbstractCase> getHospitals() {
+		Vector<AbstractCase> toReturn = new Vector<AbstractCase>();
+		for (int i=0; i<lignes; i++) {
+			for (int j=0; j<colonnes; j++) {
+				AbstractCase currentCase = this.getCase(i,j);
+				if (currentCase instanceof Hospital)
+					toReturn.add(currentCase);
+			}
+		}
+		return toReturn;
+	}
+	/**
+	 * casernes
+	 * @param 
+	 * @return 
+	 */
+	Vector<AbstractCase> getCasernes() {
+		Vector<AbstractCase> toReturn = new Vector<AbstractCase>();
+		for (int i=0; i<lignes; i++) {
+			for (int j=0; j<colonnes; j++) {
+				AbstractCase currentCase = this.getCase(i,j);
+				if (currentCase instanceof Caserne)
+					toReturn.add(currentCase);
+			}
+		}
+		return toReturn;
+	}
+	/**
+	 * maisons
+	 * @param 
+	 * @return 
+	 */
+	Vector<AbstractCase> getMaisons() {
+		Vector<AbstractCase> toReturn = new Vector<AbstractCase>();
+		for (int i=0; i<lignes; i++) {
+			for (int j=0; j<colonnes; j++) {
+				AbstractCase currentCase = this.getCase(i,j);
+				if (currentCase instanceof Maison)
+					toReturn.add(currentCase);
+			}
+		}
+		return toReturn;
+	}
 	/////////////////////////////////////////////////////////////////////////////
 	////////////////////// Getters/Setters
-	
 	public AbstractCase[][] getVillage() {
 		return village;
 	}

@@ -1,13 +1,10 @@
 package Helpers;
 
+import java.util.Vector;
+
+import Cases.AbstractCase;
 import Persons.AbstractPerson;
-import Persons.Medecin;
-import Villes.*;
-import Cases.*;
-import Debug.Log;
-
-
-import java.util.*;
+import Villes.Ville;
 
 public class SharedMethods {
 
@@ -254,5 +251,23 @@ public class SharedMethods {
 		}  
 		return maxValue;  
 	}
-	
+	/**
+	 * Distance la plus proche
+	 * @param 
+	 * @return 
+	 */
+	public static AbstractCase nearestPlaceFrom(Vector<AbstractCase> places, AbstractCase actualCase) {
+		double distance = 1000000.0;
+		AbstractCase nearestCase = null;
+		for (int i=0; i<places.size(); i++) {
+			AbstractCase currentCase = places.elementAt(i);
+			double currentDistance = SharedMethods.distance(currentCase.getPosition(), actualCase.getPosition());
+			if (currentDistance<distance)
+				nearestCase = currentCase;
+		}
+		return nearestCase;
+	}
+	public static double distance(Position pA, Position pB) {
+		return Math.sqrt((pB.x-pA.x)^2 + (pB.y-pA.y)^2 );
+	}
 }

@@ -1,11 +1,16 @@
 package Cases;
 
-import Helpers.*;
-import Debug.*;
-import Cases.*;
-import Villes.*;
-import java.util.*;
-import Persons.*;
+import java.util.Vector;
+
+import Helpers.Position;
+import Helpers.ProbabilityManager;
+import Helpers.RandomManager;
+import Helpers.SharedMethods;
+import Persons.AbstractPerson;
+import Persons.Citoyen;
+import Persons.Medecin;
+import Persons.Pompier;
+import Villes.Ville;
 
 public class CasesRules {
 	
@@ -57,7 +62,6 @@ public class CasesRules {
 			admissible = true;
 		}
 
-		
 		else if (p instanceof Citoyen) {
 			if (p.isMalade())
 				admissible = true;

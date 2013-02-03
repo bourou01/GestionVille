@@ -1,6 +1,5 @@
 package Debug;
 
-import Persons.AbstractPerson;
 
 public class Log {
 	static int logIndex = 0;

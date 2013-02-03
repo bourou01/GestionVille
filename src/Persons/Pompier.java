@@ -5,31 +5,28 @@
 
 package Persons;
  
-import SharedInterfaces.*;
-import Cases.*;
-import Helpers.ProbabilityManager;
+import java.util.Vector;
 
-import java.util.*;
+import Cases.AbstractCase;
+import Helpers.ProbabilityManager;
 
 public class Pompier extends AbstractPerson  {
 
 	private double niveauPulverisateur;
 	
 	/**
-	 * Constructeur par d√©faut
+	 * Constructeur par defaut
 	 * @param 
 	 * @return 
 	 */
 	public Pompier() {
 		
 	}
-
 	//////////////////////////////////////////////////////////////////////////////
 	///////////////// REGLES DE MOUVEMENT SPECIFIQUES
 	void choisirCaseLaPlusContaminee() {
 		
 	}
-	
 	//////////////////////////////////////////////////////////////////////////////
 	///////////////// REGLES DE TRAITEMENT SPECIFIQUES
 	public void decontaminer(AbstractCase lieu) {

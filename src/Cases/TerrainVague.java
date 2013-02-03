@@ -1,7 +1,5 @@
 package Cases;
 
-import Debug.Log;
-import Helpers.*;
 
 public class TerrainVague extends AbstractCase{
 	/**
@@ -12,7 +10,6 @@ public class TerrainVague extends AbstractCase{
 	public TerrainVague(int x, int y) {
 		super (x, y);
 	}
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// INTERFACE DE 'ActionManager'
 	@Override
@@ -22,6 +19,5 @@ public class TerrainVague extends AbstractCase{
 		 *		 REGLE 1 : Un terrain vague peut augmenter le niveau de contamination d'un autre terrain vague autour ...
 		 **************************/
 		CasesRules.regle1(super.getVille(), this);
-		
 	}
 }

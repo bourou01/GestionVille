@@ -1,10 +1,13 @@
 package Persons;
 import java.util.Vector;
 
-import Helpers.*;
-import Debug.*;
-import Cases.*;
-import Persons.*;
+import Cases.AbstractCase;
+import Cases.Caserne;
+import Cases.Hospital;
+import Cases.TerrainVague;
+import Helpers.ProbabilityManager;
+import Helpers.RandomManager;
+import Helpers.SharedMethods;
 
 public class PersonRules {
 
@@ -74,6 +77,7 @@ public class PersonRules {
 		double niveauContaminationLieu = cDest.getNiveauContamination();
 		if (deplacee) { /// 2%
 			double deuxPourcentsDuLieu = 0.02*niveauContaminationLieu;
+			
 			double result = ProbabilityManager.augmentation(niveauContaminationPersonne, deuxPourcentsDuLieu);
 			p.setNiveauContamination(result);
 
@@ -139,12 +143,9 @@ public class PersonRules {
 		Vector<AbstractPerson> personnes = caseActuel.getVillageois();
 		int size = personnes.size();
 		for (int i=0; i<size; i++) {
-			// TODO tout le monde en m√™me temps ou 1 √† 1
 			AbstractPerson personne = personnes.elementAt(i);
-			
 			int tirage = RandomManager.randInt(0, 100);
 			if ((tirage>0) && (tirage<=10)) { /// 1 tirage par citoyen
-				
 				/// CAS CITOYEN MEDECIN
 				if ((personne instanceof Citoyen) || (personne instanceof Medecin)) {
 					personne.setContaminated(true);
@@ -167,32 +168,25 @@ public class PersonRules {
 			for (int i=0; i<size2; i++) {
 				AbstractCase currentCase = lieuxVoisins.elementAt(i);
 				if (currentCase instanceof TerrainVague) { /// si Terrain Vague
-					
 					Vector<AbstractPerson> villageois = caseActuel.getVillageois();
 					for (int j=0; j<villageois.size(); j++) {
-						
 						AbstractPerson currentPersonne = villageois.elementAt(j); /// Que le citoyens
 						/// CAS CITOYEN MEDECIN
 						if ((currentPersonne instanceof Citoyen) || (currentPersonne instanceof Medecin)) {
-						
 							int tirage = RandomManager.randInt(0, 100);
-							// TODO tout le monde en m√™me temps ou 1 √† 1
 							if ((tirage>0) && (tirage<=1)) { /// 1 tirage par citoyen
 								currentPersonne.setContaminated(true); /// le contamine !
-								
 							}
 						}
 						/// CAS POMPIER
-						if (currentPersonne instanceof Pompier) {
-							// TODO cas particulir pour pompier
-							
+						else if (currentPersonne instanceof Pompier) {
+							// TODO ne pas oublier
 							
 						}
 					}	
 				}	
 			}			
 		}
-		
 	}
 	/**
 	 * Regle 7

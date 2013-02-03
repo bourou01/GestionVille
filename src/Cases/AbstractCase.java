@@ -9,12 +9,17 @@ package Cases;
 
 import java.util.Vector;
 
-import Debug.Log;
 import Debug.Str;
-import Helpers.*;
-import Persons.*;
-import SharedInterfaces.*;
-import Villes.*;
+import Helpers.Position;
+import Helpers.SharedMethods;
+import Persons.AbstractPerson;
+import Persons.Citoyen;
+import Persons.Medecin;
+import Persons.PersonRules;
+import Persons.Pompier;
+import SharedInterfaces.ActionManager;
+import SharedInterfaces.ContagionManager;
+import Villes.Ville;
 
 /// LES CASES NE PEUVENT FAIRE QUE DES ACTIONS ET ETRE CONTAMINEES
 public class AbstractCase implements ActionManager, ContagionManager{
@@ -24,9 +29,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	private Ville ville;
 	
 	private double niveauContamination;
-	private boolean contaminated;
-
-	
 	private Vector<AbstractPerson> villageois;
 	
 	private Vector<AbstractPerson> citoyens;
@@ -42,11 +44,9 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	public AbstractCase() {
 		super();
 		this.villageois = new Vector<AbstractPerson>();
-
 		this.citoyens = new Vector<AbstractPerson>();
 		this.medecins = new Vector<AbstractPerson>();
 		this.pompiers = new Vector<AbstractPerson>();
-		
 	}
 	/**
 	 * Constructeur par d√©faut
@@ -210,11 +210,9 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	//////////////////////////// SETTERS/GETTERS
 	
 	public boolean isContaminated() {
-		return contaminated = this.niveauContamination>0 ? true : false;
+		return this.niveauContamination>0 ? true : false;
 	}
-	public void setContaminated(boolean contaminated) {
-		this.contaminated = contaminated;
-	}
+
 	public Position getPosition() {
 		return position;
 	}

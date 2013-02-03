@@ -1,8 +1,6 @@
 package Cases;
 
 import Persons.AbstractPerson;
-import Helpers.*;
-import Debug.*;
 
 public class Hospital extends AbstractCase {
 

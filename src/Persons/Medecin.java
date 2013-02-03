@@ -7,9 +7,8 @@
 package Persons;
 
 
-import Cases.*;
+import Cases.Hospital;
 import Debug.Log;
-import SharedInterfaces.*;
 
 
 public class Medecin extends AbstractPerson  {
@@ -56,7 +55,6 @@ public class Medecin extends AbstractPerson  {
 	boolean verifieSiKitDeTraitement() {
 		return false;
 	}
-	
 	
 	public int getNombreKitDeTraitement() {
 		return nombreKitDeTraitement;

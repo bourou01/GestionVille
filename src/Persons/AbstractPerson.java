@@ -7,35 +7,32 @@
 
 package Persons;
 
-import Villes.*;
-import Cases.*;
-import Debug.Log;
+import java.util.Vector;
+
+import Cases.AbstractCase;
 import Helpers.Position;
 import Helpers.RandomManager;
-import SharedInterfaces.*;
-import SharedInterfaces.*;
-import java.util.Vector;
+import SharedInterfaces.ActionManager;
+import SharedInterfaces.MovementRules;
+import Villes.Ville;
 
 
 /// LES PERSONNES PEUVENT FAIRE DES ACTIONS ET BOUGER ET ETRE CONTAMINEE
-public class AbstractPerson implements MovementRules, ActionManager, ContagionManager { 
-	
+public class AbstractPerson implements MovementRules, ActionManager {
 	private Ville ville;
-	private AbstractCase lieuCourant;
+	//private AbstractCase lieuCourant;
 	
 	private Position position;
-	
 	private int tours;
 	
 	private boolean hasAppareilMesureContaminationLevel = false;
 	private boolean malade = false;
-	private boolean contaminated = false;
+	//private boolean contaminated = false;
 	private boolean mort = false;
 	private int nombreJourMalade = 0;
 	private double niveauContamination = 0;
 	
 	private boolean dejaEteMalade;
-	
 	///
 	private int id;
 	
@@ -69,14 +66,6 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////// INTERFACE DE 'ContagionManager'
-	@Override
-	public void contaminate() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// INTERFACE DE 'ActionManager'
 	@Override
 	public void action() {
@@ -84,11 +73,9 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 		if (this.isMort())
 			return;
 		*/
-		
-		
 		AbstractCase caseActuel = this.getLieuCourant();
 		
-		/** Règles spécifique aux medecins */
+		/** Regles specifiques aux medecins */
 		if ((this instanceof Medecin) && (!this.isMort())) {
 			
 			/**************************
@@ -106,7 +93,7 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			PersonRules.regle8(caseActuel, this);
 		}
 		
-		/** Règles communs */
+		/** Regles communs */
 		if ((!this.isMort()) && this.isContaminated()) {
 			/**************************
 			 *		 REGLE 1 : risque de devenir malade
@@ -132,59 +119,43 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			 **************************/
 			PersonRules.regle6(caseActuel , this);
 		}
-		
-		
-		
 	}
-	
 	public void updateJoursMalade() {
 		if (this.isMalade() && !this.isMort()) {
 			this.nombreJourMalade++;
 		}
 	}
-	
-
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// INTERFACE DE 'MouvementRules'
 	
 	@Override
 	public void deplacer() {
-		/*
+		
 		if (this.isMort())
 			return;
-		*/
-		
-		// deplacement aleatoire
-		if (!isMort()) {
-			/// deplacement aleatoire
-			Position pToMove = this.choisirCaseAleatoirement();
-			/// Log.Disp("Nature:"+super.toString()+"  id: "+super.getId()+" PosSrc:"+super.getPosition()+" PosDest:"+pAleatoire);
-			
-			/// lance le deplacement en fonction de la position calculee
-			boolean deplacee = this.moveToCase(pToMove);
-			/**************************
-			 *		 REGLE 4 : niveau de contamination augmente en fonction du lieu d'arrivee
-			 **************************/
-			PersonRules.regle4(this, this.getVille().getCase(pToMove), deplacee);
-			
-		}
-		
+		/** deplacement aleatoire */
+		Position pToMove = this.choisirCaseAleatoirement();
+		this.moveAt(pToMove);
+	}
+	public void moveAt(Position pToMove) {
+		/// lance le deplacement en fonction de la position calculee
+		boolean deplacee = this.moveToCase(pToMove);
+		/**************************
+		 *		 REGLE 4 : niveau de contamination augmente en fonction du lieu d'arrivee
+		 **************************/
+		PersonRules.regle4(this, this.getVille().getCase(pToMove), deplacee);
 	}
 	
 	@Override
 	public Vector<Position> casesValidesPourDeplacement() {
-		
 		Vector<Position> validPlaces = new Vector<Position>();
-		
 		/// maximas
 		int xMax = this.ville.getLignes();
 		int yMax = this.ville.getColonnes();
 		/// position Actuel
 		Position p = this.getPosition();
-		
 		/////////////////////////////////////////////////////////////////////
 		///////////////8 positions possibles
-		
 		// p1(x-1,y-1)
 		if ((p.getX()-1>=0) && (p.getY()-1>=0)) {
 			Position p1 = new Position(p.getX()-1, p.getY()-1);
@@ -225,7 +196,6 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			Position p8 = new Position(p.getX()+1, p.getY()+1);
 			validPlaces.add(p8);
 		}
-		
 		return validPlaces;
 	}
 
@@ -259,34 +229,24 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Position choisirZoneAvecMaisonSain() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Position choisirMaisonAleatoirement() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public boolean moveToCase(Position pDest) {
 		/// calcule la case source
 		AbstractCase src = this.getVille().getCase(this.getPosition());
 		/// calcule la case destination
 		AbstractCase dest = this.getVille().getCase(pDest);
-		
-		
-		//System.out.println(this.ID()+" s:"+src.ID()+" d:"+dest.ID());
-		this.movePersonFromCaseToCase(src, dest);
-		
-		
-		return true;
+		return this.movePersonFromCaseToCase(src, dest);
 	}
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// 
 	public boolean movePersonFromCaseToCase(AbstractCase src, AbstractCase dest) {
@@ -296,44 +256,11 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 			return true;
 		}
 		else {
-			
 			return false;
 		}
 	}
-
 	@Override
 	public String toString() {
-		
-		/*
-		if (this instanceof Citoyen) {
-			if (this.isMort())
-				return "C-D";
-			else if (this.isMalade())
-				return "C-I";
-			else
-				return "C";
-		}
-		else if (this instanceof Medecin) {
-			if (this.isMort())
-				return "M-D";
-			else if (this.isMalade())
-				return "M-I";
-			else
-				return "M";
-		}
-		else if (this instanceof Pompier) {
-			if (this.isMort())
-				return "P-D";
-			else if (this.isMalade())
-				return "P-I";
-			else
-				return "P";
-		}
-		else {
-			return "";
-		}	
-		*/
-		
 		if (this instanceof Citoyen) {
 				return "C";
 		}
@@ -345,36 +272,25 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 		}
 		else {
 			return "@";
-		}	
-		
-		
-		
+		}
 	}
-	
 	public String ID() {
 		return this.toString()+"{"+this.getId()+"}"+this.position+"";
 	}
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// GETTERS/SETTERS
-
 	public boolean isMort() {
 		return mort;
 	}
-
-
 	public void setMort(boolean mort) {
 		this.mort = mort;
 	}
-
 	public Ville getVille() {
 		return ville;
 	}
-
 	public void setVille(Ville ville) {
 		this.ville = ville;
 	}
-
 	public AbstractCase getLieuCourant() {
 		return this.getVille().getCase(this.getPosition());
 		// return lieuCourant;
@@ -396,72 +312,51 @@ public class AbstractPerson implements MovementRules, ActionManager, ContagionMa
 	public boolean isMalade() {
 		return malade;
 	}
-
-
 	public void setMalade(boolean malade) {
 		this.malade = malade;
 	}
-
-
 	public int getNombreJourMalade() {
 		return nombreJourMalade;
 	}
-
-
 	public void setNombreJourMalade(int nombreJourMalade) {
 		this.nombreJourMalade = nombreJourMalade;
 	}
-
-
 	public double getNiveauContamination() {
 		return niveauContamination;
 	}
-
-
 	public void setNiveauContamination(double niveauContamination) {
 		this.niveauContamination = niveauContamination;
 	}
-
-
 	public boolean isDejaEteMalade() {
 		return dejaEteMalade;
 	}
-
-
 	public void setDejaEteMalade(boolean dejaEteMalade) {
 		this.dejaEteMalade = dejaEteMalade;
 	}
-
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 	public int getTours() {
 		return tours;
 	}
 	public void setTours(int tours) {
 		this.tours = tours;
 	}
-
 	public Position getPosition() {
 		return position;
 	}
 	public void setPosition(Position p) {
-		
 		this.position.setPosition(p);
 		//this.position = p;
 	}
-	
 	public boolean isContaminated() {
-		return contaminated  = this.niveauContamination > 0 ? true : false;
+		//return contaminated  = this.niveauContamination > 0 ? true : false;
+		return this.niveauContamination > 0 ? true : false;
 	}
 	public void setContaminated(boolean contaminated) {
-		this.contaminated = contaminated;
+		//this.contaminated = contaminated;
 	}
-
 }

@@ -1,8 +1,6 @@
 package View;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,21 +9,16 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Controller.GestionVilleController;
-import Debug.Log;
 import Main.GestionVille;
 
 public class DebugViewPanel extends JPanel implements ActionListener {
@@ -47,7 +40,7 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	public GestionVilleController gestionVilleController;
 	/**
 	 * Constructeur par défaut
-	 *  
+	 *
 	 */
 	public DebugViewPanel() {
 		super();
@@ -62,10 +55,14 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	private void initTimer() {
 		int delay = 10* (100-speedMoveSlider.getValue());
 		actionTimer = new Timer(delay, new AbstractAction() {
-		    int count = 20;
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			int count = 20;
 		    @Override
 		    public void actionPerformed(ActionEvent ae) {
-		        if (count < 1000 ) {
+		        if (count < 10000 ) {
 		        	
 					GestionVille.getVille().oneStep();
 					gestionVilleController.mapViewPanel.repaint();
@@ -93,20 +90,14 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	 * 
 	 */
 	private void drawView() {
-		
-		/** Dessine le titre */
-		
+		/** Dessine le titre */		
 		setLayout (new BoxLayout(this,BoxLayout.Y_AXIS));
 
-
-	    
-	    String labelText = "<html><FONT COLOR=RED>Red</FONT> and " + "<FONT COLOR=BLUE>Blue</FONT> Text<br/><br/></html>";
-	    
 	    /**Conteneur Labels*/
 	    JPanel labelConteneur = new JPanel(new GridLayout(2,2));
 	    
 	    /**label 1*/
-	    medecinsLabel = new JLabel(new ImageIcon("res/images/hero-attack.gif"));
+	    medecinsLabel = new JLabel(new ImageIcon("res/hero-attack.gif"));
 	    medecinsLabel.setText("<html><FONT COLOR=BLUE><B>Medecins </B></FONT></html>");
 	    medecinsLabel.setHorizontalTextPosition(JLabel.CENTER);
 	    medecinsLabel.setVerticalTextPosition(JLabel.BOTTOM);
@@ -114,7 +105,7 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	    labelConteneur.add(medecinsLabel);
 	    
 	    /**label 2*/
-	    pompiersLabel = new JLabel(new ImageIcon("res/images/orc-walk.gif"));
+	    pompiersLabel = new JLabel(new ImageIcon("res/orc-walk.gif"));
 	    pompiersLabel.setText("<html><FONT COLOR=RED><B>Pompiers </B></FONT></html>");
 	    pompiersLabel.setHorizontalTextPosition(JLabel.CENTER);
 	    pompiersLabel.setVerticalTextPosition(JLabel.BOTTOM);
@@ -122,7 +113,7 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	    labelConteneur.add(pompiersLabel);
 	    
 	    /**label 3*/
-	    citoyensLabel = new JLabel(new ImageIcon("res/images/golem-walk.gif"));
+	    citoyensLabel = new JLabel(new ImageIcon("res/golem-walk.gif"));
 	    citoyensLabel.setText("<html><FONT COLOR=GRAY><B>Citoyens </B></FONT></html>");
 	    citoyensLabel.setHorizontalTextPosition(JLabel.CENTER);
 	    citoyensLabel.setVerticalTextPosition(JLabel.BOTTOM);
@@ -170,16 +161,14 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
-		if (source == this.nextStepButton) {
+		if (source == nextStepButton) {
 
 			if (actionTimer.isRunning()) {
 				nextStepButton.setText("Play");
 				actionTimer.stop();
-				
 			} else {
 				nextStepButton.setText("Pause");
 				actionTimer.start();
-				
 			}
 		}
 	}

@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import Debug.Log;
 import Main.GestionVille;
 import Persons.AbstractPerson;
 import Persons.Citoyen;
@@ -16,6 +15,10 @@ import Persons.Pompier;
 
 public class PersonView extends TownElementView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static int NB_PERSONS = 5;
 	public static int PERSON_WIDTH = (int)((double)((CaseView.WIDTH - CaseView.BORDER_SIZE * 2)/NB_PERSONS));
 	public static int PERSON_HEIGHT = (int)((double)((CaseView.HEIGHT - CaseView.BORDER_SIZE * 2)/NB_PERSONS));
@@ -58,9 +61,7 @@ public class PersonView extends TownElementView {
 			this.setBackground(Color.red);
 		else if (abstractPerson instanceof Medecin)
 			this.setBackground(Color.blue);
-		
-	
-		
+
 		this.updateDraws();
 		
 	}
@@ -101,16 +102,12 @@ public class PersonView extends TownElementView {
         g.setFont(PERSON_LABEL_FONT);
         //g.drawString(abstractPerson.toString() + abstractPerson.getId(), BORDER_SIZE + 0, BORDER_SIZE + 11);
         g.drawString(""+abstractPerson.getId(), BORDER_SIZE + 0, BORDER_SIZE + 11);
-        
         /// dead
         if (this.abstractPerson.isMort()) {
         	g2D.setColor(Color.white);
         	g2D.setStroke(BORDER_DEAD_LINE);
         	g2D.drawLine(0, 0, PERSON_WIDTH, PERSON_WIDTH);
         	g2D.drawLine(PERSON_WIDTH, 0, 0, PERSON_WIDTH);
-        	
-        }
-        
+        } 
     }
-	
 }

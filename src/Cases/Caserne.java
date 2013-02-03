@@ -6,8 +6,6 @@
 
 package Cases;
 
-import Persons.AbstractPerson;
-
 public class Caserne extends AbstractCase {
 	
 	/**

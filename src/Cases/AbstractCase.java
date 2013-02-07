@@ -35,7 +35,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 	private Vector<AbstractPerson> medecins;
 	private Vector<AbstractPerson> pompiers;
 	
-	
 	/**
 	 * Constructeur par d√©faut
 	 * @param 

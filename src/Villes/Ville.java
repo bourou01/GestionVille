@@ -356,7 +356,7 @@ public class Ville {
 	 * @param 
 	 * @return 
 	 */
-	Vector<AbstractCase> getHospitals() {
+	public Vector<AbstractCase> getHospitals() {
 		Vector<AbstractCase> toReturn = new Vector<AbstractCase>();
 		for (int i=0; i<lignes; i++) {
 			for (int j=0; j<colonnes; j++) {
@@ -372,7 +372,7 @@ public class Ville {
 	 * @param 
 	 * @return 
 	 */
-	Vector<AbstractCase> getCasernes() {
+	public Vector<AbstractCase> getCasernes() {
 		Vector<AbstractCase> toReturn = new Vector<AbstractCase>();
 		for (int i=0; i<lignes; i++) {
 			for (int j=0; j<colonnes; j++) {
@@ -388,7 +388,7 @@ public class Ville {
 	 * @param 
 	 * @return 
 	 */
-	Vector<AbstractCase> getMaisons() {
+	public Vector<AbstractCase> getMaisons() {
 		Vector<AbstractCase> toReturn = new Vector<AbstractCase>();
 		for (int i=0; i<lignes; i++) {
 			for (int j=0; j<colonnes; j++) {

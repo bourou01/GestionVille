@@ -10,8 +10,10 @@ package Persons;
 import java.util.Vector;
 
 import Cases.AbstractCase;
+import Debug.Log;
 import Helpers.Position;
 import Helpers.RandomManager;
+import Helpers.SharedMethods;
 import SharedInterfaces.ActionManager;
 import SharedInterfaces.MovementRules;
 import Villes.Ville;
@@ -75,6 +77,15 @@ public class AbstractPerson implements MovementRules, ActionManager {
 		*/
 		AbstractCase caseActuel = this.getLieuCourant();
 		
+		/*
+		if (this.getId() == 1) {
+			AbstractCase c = SharedMethods.casePourLieuLePlusProche(caseActuel, "Hospital");
+			if (c != null)
+			Log.Disp(c.ID());
+		}
+			*/
+		
+		
 		/** Regles specifiques aux medecins */
 		if ((this instanceof Medecin) && (!this.isMort())) {
 			
@@ -135,15 +146,19 @@ public class AbstractPerson implements MovementRules, ActionManager {
 			return;
 		/** deplacement aleatoire */
 		Position pToMove = this.choisirCaseAleatoirement();
-		this.moveAt(pToMove);
+		this.moveTo(pToMove);
 	}
-	public void moveAt(Position pToMove) {
+	
+	public boolean moveTo(Position pToMove) {
 		/// lance le deplacement en fonction de la position calculee
 		boolean deplacee = this.moveToCase(pToMove);
 		/**************************
 		 *		 REGLE 4 : niveau de contamination augmente en fonction du lieu d'arrivee
 		 **************************/
 		PersonRules.regle4(this, this.getVille().getCase(pToMove), deplacee);
+		
+		return deplacee;
+		
 	}
 	
 	@Override

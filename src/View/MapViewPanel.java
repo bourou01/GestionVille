@@ -68,8 +68,7 @@ public class MapViewPanel extends JPanel {
 				} else if (currentCase instanceof Caserne) {
 					imagePath = "res/cz.png";
 				}
-				
-				
+
 				CaseView cv = new CaseView(xGraphic,yGraphic, currentCase, imagePath);
 				add(cv);
 				

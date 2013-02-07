@@ -8,7 +8,9 @@ package Persons;
 import java.util.Vector;
 
 import Cases.AbstractCase;
+import Helpers.Position;
 import Helpers.ProbabilityManager;
+import Helpers.SharedMethods;
 
 public class Pompier extends AbstractPerson  {
 
@@ -22,6 +24,45 @@ public class Pompier extends AbstractPerson  {
 	public Pompier() {
 		
 	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////// INTERFACE DE 'MouvementRules'
+	
+	@Override
+	public void deplacer() {
+		if (this.isMort())
+			return;
+		
+		AbstractCase lieuCourant = super.getLieuCourant();
+		
+		/** deplacement aleatoire */
+		Position pToMove = this.choisirCaseAleatoirement();
+		
+		/** deplacement intelligent */
+		
+		
+		/**
+		 * Un pompier en sortant d'une caserne, se déplacera à chaque tour vers la case la 
+		 * plus contaminée parmi les 8 voisines. Si la case, sur laquelle il est, 
+		 * est plus contaminée que ces 8 voisines
+		 * */
+		
+		AbstractCase laPlusContaminee = SharedMethods.caseLaPlusContaminee(lieuCourant);
+		
+		if (laPlusContaminee != null) {
+			pToMove = laPlusContaminee.getPosition();
+			
+			boolean deplaceeOuPas = super.moveTo(pToMove);
+			
+			if (!deplaceeOuPas) { // Aleatoire - conditions donnees par le cahier des charges est trop compliquee
+				pToMove = this.choisirCaseAleatoirement();
+				super.moveTo(pToMove);
+			}
+		}
+		this.moveTo(pToMove);
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////
 	///////////////// REGLES DE MOUVEMENT SPECIFIQUES
 	void choisirCaseLaPlusContaminee() {
@@ -61,7 +102,7 @@ public class Pompier extends AbstractPerson  {
 		Vector<AbstractPerson> villageoisDansVille = person.getVille().getVillageois();
 		villageoisDansVille.remove(person);
 		
-		// En gros l'objet ne sera plus référencé et sera donc détruit par le barbage Collector
+		// En gros l'objet ne sera plus r√©f√©renc√© et sera donc d√©truit par le barbage Collector
 	}
 
 	//////////////////////////////////////////////////////////////////////////////

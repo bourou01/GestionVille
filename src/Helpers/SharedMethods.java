@@ -3,6 +3,7 @@ package Helpers;
 import java.util.Vector;
 
 import Cases.AbstractCase;
+import Debug.Log;
 import Persons.AbstractPerson;
 import Villes.Ville;
 
@@ -235,7 +236,7 @@ public class SharedMethods {
 				minValue = numbers[i];  
 			}  
 		}  
-		return minValue;  
+		return minValue;
 	}
 	/**
 	 * Calcul le maximum d'un tableau
@@ -251,23 +252,96 @@ public class SharedMethods {
 		}  
 		return maxValue;  
 	}
+	
 	/**
-	 * Distance la plus proche
+	 * Calcul la distance entre 2 cases
 	 * @param 
 	 * @return 
 	 */
-	public static AbstractCase nearestPlaceFrom(Vector<AbstractCase> places, AbstractCase actualCase) {
-		double distance = 1000000.0;
-		AbstractCase nearestCase = null;
-		for (int i=0; i<places.size(); i++) {
-			AbstractCase currentCase = places.elementAt(i);
-			double currentDistance = SharedMethods.distance(currentCase.getPosition(), actualCase.getPosition());
-			if (currentDistance<distance)
-				nearestCase = currentCase;
-		}
-		return nearestCase;
-	}
 	public static double distance(Position pA, Position pB) {
-		return Math.sqrt((pB.x-pA.x)^2 + (pB.y-pA.y)^2 );
+		//return Math.sqrt( (pB.x-pA.x)^2 + (pB.y-pA.y)^2 );
+		/*
+		double A = Math.pow((pB.x-pA.x), 2.0);
+		double B = Math.pow((pB.y-pA.y), 2.0);
+		double dist = Math.sqrt( A + B);
+		*/
+		
+		double dist = Math.max(Math.abs(pB.x-pA.x) , Math.abs(pB.y-pA.y));
+		return dist;
+		
 	}
+	/**
+	 * Calcul la case la plus proche pour se rendre a un lieu
+	 * @param 
+	 * @return 
+	 */
+	public static Position casePourLieuLePlusProche(AbstractCase caseActuel, String typeLieu) {
+		/// Lieu de la ville
+		
+		Vector <AbstractCase> lieux = null;
+		if (typeLieu.equals("Hospital") )
+			lieux = caseActuel.getVille().getHospitals();
+		else if (typeLieu.equals("Caserne"))
+			lieux = caseActuel.getVille().getCasernes();
+		else if (typeLieu.equals("Maison"))
+			lieux = caseActuel.getVille().getMaisons();
+		else
+			return null;
+		
+		/// cases auTour
+		Vector<Position> casesAutour = SharedMethods.casesAround(caseActuel.getVille() , caseActuel.getPosition());
+		
+		/// Optimal
+		Position caseOptimal = new Position();
+		if (casesAutour.size()>0)
+			caseOptimal = casesAutour.elementAt(0);
+		
+		double distanceOptimal = 1000000000000000.0;
+
+		for (int i=0; i<lieux.size(); i++) {
+			for (int j=0; j<casesAutour.size(); j++) {
+				Position currentLieu = lieux.elementAt(i).getPosition();
+				Position currentCaseAutour = casesAutour.elementAt(j);
+				double currentDistance = SharedMethods.distance(currentCaseAutour, currentLieu);
+				if (currentDistance < distanceOptimal) {
+					distanceOptimal = currentDistance;
+					caseOptimal = currentCaseAutour;
+				}
+			}
+		}
+		return caseOptimal;
+	}
+	
+	/**
+	 * Calcule la case la plus contaminee
+	 * @param 
+	 * @return 
+	 */
+	public static AbstractCase caseLaPlusContaminee(AbstractCase caseActuel){ 
+		
+		AbstractCase laPlusContaminee = null;
+		
+		/** casesAutour*/
+		Vector <Position> casesAutour = SharedMethods.casesAround(caseActuel.getVille(), caseActuel.getPosition());
+		
+		double niveauContaminationMax = 0.0;
+		
+		for (int i=0; i<casesAutour.size(); i++) {
+			Position currentPosition = casesAutour.elementAt(i);
+			AbstractCase currentCase = caseActuel.getVille().getCase(currentPosition);
+			double niveauContaminationCourant = currentCase.getNiveauContamination();
+
+			if (niveauContaminationMax > niveauContaminationCourant) {
+				laPlusContaminee = currentCase;
+			}
+		}
+		
+		return laPlusContaminee;
+	}	
+	
+	
+	
+	
+	
+	
 }

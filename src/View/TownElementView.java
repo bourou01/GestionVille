@@ -33,11 +33,13 @@ public abstract class TownElementView extends JPanel {
 		  if (img == null)
 			  return;
 		  this.backgroundImage = img;
+		  
 		  Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
 		  setPreferredSize(size);
 		  setMinimumSize(size);
 		  setMaximumSize(size);
 		  setSize(size);
+		  
 		  setLayout(null);
 	  }
 	/**

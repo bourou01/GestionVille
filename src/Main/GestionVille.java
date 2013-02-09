@@ -1,9 +1,9 @@
-package Main;
-
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
  * @version 
  */
+
+package Main;
 
 import Villes.*;
 

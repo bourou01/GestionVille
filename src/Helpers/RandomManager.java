@@ -1,3 +1,9 @@
+
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
+
 package Helpers;
 
 import java.util.Random;

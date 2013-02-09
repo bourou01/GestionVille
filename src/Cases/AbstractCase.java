@@ -1,9 +1,7 @@
-
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
  * @version 
  */
-
 
 package Cases;
 
@@ -70,13 +68,10 @@ public class AbstractCase implements ActionManager, ContagionManager{
 		// TODO Auto-generated method stub
 		
 	}
-	
 	////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////// Regles d'entree sortie
 	public boolean accueillirPersonne(AbstractPerson newP) { /// ajoute tout le monde
-		
 		return this.addPerson(newP);
-		
 	}
 	
 	public boolean addPerson(AbstractPerson newP) {
@@ -89,7 +84,6 @@ public class AbstractCase implements ActionManager, ContagionManager{
 			return false;
 		else
 			this.villageois.add(newP);
-		
 		
 		/**************************
 		 *		 REGLE 7 : Un pompier entrant dans une case brûle automatiquement tous les corps des morts. + reçoi pulverisateur

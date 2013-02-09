@@ -1,6 +1,5 @@
-
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
  * @version 
  */
 
@@ -9,8 +8,6 @@ package Helpers;
 public class Position {
 	public int x;
 	public int y;
-	
-	
 	/**
 	 * Constructeur par défaut
 	 * @param 

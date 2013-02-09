@@ -1,5 +1,5 @@
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
  * @version 
  */
 

@@ -1,3 +1,8 @@
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
+
 package Persons;
 import java.util.Vector;
 
@@ -10,7 +15,21 @@ import Helpers.RandomManager;
 import Helpers.SharedMethods;
 
 public class PersonRules {
-
+	/**
+	 * Regle 0
+	 * @param 
+	 * @return 
+	 * Un citoyen contaminé augmente de 1%, de son niveau de contamination,
+	 * celui du lieu sur lequel il est situé
+	 * 
+	 */
+	static public void regle0(AbstractCase lieuActuel, AbstractPerson p) {
+		if(!(lieuActuel instanceof Caserne)) {
+			double niveauContaminationLieu = lieuActuel.getNiveauContamination();
+			double total = niveauContaminationLieu + 0.01 * p.getNiveauContamination();
+			lieuActuel.setNiveauContamination(total);
+		}
+	}
 	/**
 	 * Regle 1
 	 * @param 
@@ -119,7 +138,6 @@ public class PersonRules {
 		}
 		p.setNiveauContamination( result );
 	}
-	
 	/**
 	 * Regle 6
 	 * @param 

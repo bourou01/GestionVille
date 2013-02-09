@@ -1,5 +1,9 @@
-package View;
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
 
+package View;
 
 import java.awt.Color;
 import java.awt.Font;

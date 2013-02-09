@@ -1,8 +1,7 @@
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
  * @version 
  */
-
 package Persons;
  
 import java.util.Vector;

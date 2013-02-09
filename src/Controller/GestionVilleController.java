@@ -1,3 +1,8 @@
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
+
 package Controller;
 
 import java.awt.BorderLayout;

@@ -1,9 +1,7 @@
-
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
  * @version 
  */
-
 package Cases;
 
 public class Caserne extends AbstractCase {

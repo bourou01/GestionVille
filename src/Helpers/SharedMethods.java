@@ -1,9 +1,13 @@
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
+
 package Helpers;
 
 import java.util.Vector;
 
 import Cases.AbstractCase;
-import Debug.Log;
 import Persons.AbstractPerson;
 import Villes.Ville;
 
@@ -335,13 +339,6 @@ public class SharedMethods {
 				laPlusContaminee = currentCase;
 			}
 		}
-		
 		return laPlusContaminee;
 	}	
-	
-	
-	
-	
-	
-	
 }

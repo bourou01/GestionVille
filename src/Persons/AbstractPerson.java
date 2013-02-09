@@ -1,23 +1,19 @@
 
 /**
- * @author ABDULLATIF Mouhamadi
+ * @author ABDULLATIF Mouhamadi et LUCAS Costa Amaro
  * @version 
  */
-
 
 package Persons;
 
 import java.util.Vector;
 
 import Cases.AbstractCase;
-import Debug.Log;
 import Helpers.Position;
 import Helpers.RandomManager;
-import Helpers.SharedMethods;
 import SharedInterfaces.ActionManager;
 import SharedInterfaces.MovementRules;
 import Villes.Ville;
-
 
 /// LES PERSONNES PEUVENT FAIRE DES ACTIONS ET BOUGER ET ETRE CONTAMINEE
 public class AbstractPerson implements MovementRules, ActionManager {
@@ -83,8 +79,11 @@ public class AbstractPerson implements MovementRules, ActionManager {
 			if (c != null)
 			Log.Disp(c.ID());
 		}
-			*/
-		
+		*/
+		/**************************
+		 *		 REGLE 0 :
+		 **************************/
+		PersonRules.regle0(caseActuel, this);
 		
 		/** Regles specifiques aux medecins */
 		if ((this instanceof Medecin) && (!this.isMort())) {
@@ -131,6 +130,8 @@ public class AbstractPerson implements MovementRules, ActionManager {
 			PersonRules.regle6(caseActuel , this);
 		}
 	}
+	
+	
 	public void updateJoursMalade() {
 		if (this.isMalade() && !this.isMort()) {
 			this.nombreJourMalade++;
@@ -220,25 +221,21 @@ public class AbstractPerson implements MovementRules, ActionManager {
 		int rIndex = RandomManager.randInt(0, validCases.size());
 		return validCases.elementAt(rIndex);
 	}
-
 	@Override
 	public Position choisirCaseLaPlusProcheDeCaserne() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Position choisirCaseLaPlusProcheDeHospital() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Position choisirZoneMoinsContaminee() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Position choisirZoneAvecPompier() {
 		// TODO Auto-generated method stub
@@ -323,7 +320,6 @@ public class AbstractPerson implements MovementRules, ActionManager {
 			boolean hasAppareilMesureContaminationLevel) {
 		this.hasAppareilMesureContaminationLevel = hasAppareilMesureContaminationLevel;
 	}
-	
 	public boolean isMalade() {
 		return malade;
 	}

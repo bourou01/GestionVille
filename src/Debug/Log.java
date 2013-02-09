@@ -1,5 +1,8 @@
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
 package Debug;
-
 
 public class Log {
 	static int logIndex = 0;
@@ -14,18 +17,4 @@ public class Log {
 		logIndex++;
 		System.out.println("Log "+logIndex+": "+s);
 	}
-	
-	/**
-	 * LOG POUR LES PERSONNES
-	 * @param 
-	 * @return 
-	 */
-	public static void DispP(int key, Object s) {
-		if ((key == personIdAcess) || (personIdAcess == -1)) {
-			logIndex++;
-			//System.out.println(s);
-			//System.out.println("#"+p+"{"+p.getId()+"}");
-		}
-	}
-
 }

@@ -1,3 +1,8 @@
+/**
+ * @author ABDULLATIF Mouhamadi et LUCAS COSTA Amaro
+ * @version 
+ */
+
 package View;
 
 import java.awt.Color;
@@ -77,7 +82,7 @@ public class DebugViewPanel extends JPanel implements ActionListener {
 							"</B></FONT></html>");
 					
 		            count++;
-		        } else {//counter is at 1000 stop the timer
+		        } else {//counter is at 10000 stop the timer
 		            ((Timer) ae.getSource()).stop();
 		        }
 		    }
